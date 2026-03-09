@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import Reveal from "@/components/Reveal";
 import { getCategories } from "@/lib/getCategories";
-import { useEffect, useState } from "react";
 
 export const metadata = {
   title: "Mobilier profesional pentru magazine retail",
@@ -12,16 +11,9 @@ export const metadata = {
     "Tejghele, rafturi și vitrine profesionale pentru magazine retail. Soluții complete pentru spații comerciale în Craiova.",
 };
 
-export default function Home() {
-  const [categories, setCategories] = useState<any[]>([]);
+export default async function Home() {
 
-  useEffect(() => {
-    async function load() {
-      const data = await getCategories();
-      setCategories(data || []);
-    }
-    load();
-  }, []);
+  const categories = await getCategories();
 
   return (
     <main className="bg-white">
