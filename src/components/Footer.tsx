@@ -82,9 +82,49 @@ export default function Footer() {
 
         <div>
 
-          <h4 className="font-semibold text-lg mb-6">
-            Contact
-          </h4>
+          <div className="flex items-center gap-3 mb-6">
+
+  <h4 className="font-semibold text-lg">
+    Contact
+  </h4>
+
+  {/* FACEBOOK */}
+
+  <a
+    href="https://facebook.com/nextshopretail"
+    target="_blank"
+    className="hover:opacity-80 transition"
+  >
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className="text-white"
+    >
+      <path d="M22 12a10 10 0 1 0-11.6 9.9v-7h-2.7V12h2.7V9.7c0-2.7 1.6-4.2 4-4.2 1.2 0 2.4.2 2.4.2v2.6h-1.4c-1.4 0-1.8.8-1.8 1.7V12h3l-.5 2.9h-2.5v7A10 10 0 0 0 22 12Z"/>
+    </svg>
+  </a>
+
+  {/* INSTAGRAM */}
+
+  <a
+    href="https://instagram.com/nextshopretail"
+    target="_blank"
+    className="hover:opacity-80 transition"
+  >
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className="text-white"
+    >
+      <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm5 5.5A4.5 4.5 0 1 0 16.5 12 4.5 4.5 0 0 0 12 7.5Zm0 7.4A2.9 2.9 0 1 1 14.9 12 2.9 2.9 0 0 1 12 14.9ZM17.8 6.6a1.1 1.1 0 1 1-1.1-1.1 1.1 1.1 0 0 1 1.1 1.1Z"/>
+    </svg>
+  </a>
+
+</div>
 
           <div className="space-y-4 text-gray-400 text-sm mb-6">
 
@@ -114,8 +154,8 @@ export default function Footer() {
               </svg>
 
               <p>
-                Showroom: zona Metro, Calea București nr 139<br />
-                Craiova, România
+                Showroom: zona Metro, Calea București nr 139A<br />
+                Pielești, România
               </p>
 
             </div>
@@ -139,7 +179,7 @@ export default function Footer() {
                 />
               </svg>
 
-              <p>+40 763 990 927</p>
+              <p>+40 771 753 423</p>
 
             </div>
 
@@ -171,7 +211,7 @@ export default function Footer() {
                 />
               </svg>
 
-              <p>contact@nextshopretail.ro</p>
+              <p>nextshopretail@yahoo.com</p>
 
             </div>
 
@@ -183,7 +223,7 @@ export default function Footer() {
           <div className="rounded-lg overflow-hidden border border-gray-800">
 
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d814.2603581198393!2d23.897433775660975!3d44.31276006622484!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4752d4235c890917%3A0x68aa176f3d98864a!2sCalea%20Bucure%C8%99ti%20nr%20139%2C%20207450!5e1!3m2!1sen!2sro!4v1773075623526!5m2!1sen!2sro"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3122.497871684504!2d23.89482521205815!3d44.31292727095786!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4752d4247e895555%3A0x9112e14b6229afcc!2sCalea%20Bucure%C8%99ti%20139a%2C%20207450%20Piele%C8%99ti!5e1!3m2!1sen!2sro!4v1773168349146!5m2!1sen!2sro"
               width="100%"
               height="180"
               loading="lazy"

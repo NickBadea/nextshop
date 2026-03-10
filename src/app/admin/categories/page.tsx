@@ -30,7 +30,6 @@ export default async function CategoriesPage() {
     const supabase = await createClient();
     const id = formData.get("id");
 
-    // verificăm dacă există produse în categorie
     const { data: products } = await supabase
       .from("products")
       .select("id")
@@ -83,22 +82,46 @@ export default async function CategoriesPage() {
 
               <div
                 key={cat.id}
-                className="bg-white border rounded-xl p-4 shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
+                className="bg-white border rounded-xl p-4 shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
               >
 
-                <div className="flex flex-col">
+                {/* INFO */}
 
-                  <span className="font-medium text-base">
-                    {cat.name}
-                  </span>
+                <div className="flex items-center gap-4">
 
-                  {hasProducts && (
-                    <span className="text-xs text-gray-500">
-                      Conține produse
-                    </span>
+                  {/* IMAGE */}
+
+                  {cat.image ? (
+                    <img
+                      src={cat.image}
+                      alt={cat.name}
+                      className="w-14 h-14 object-cover rounded-lg border"
+                    />
+                  ) : (
+                    <div className="w-14 h-14 flex items-center justify-center bg-gray-200 rounded-lg text-xs text-gray-500">
+                      Fără imagine
+                    </div>
                   )}
 
+                  {/* TEXT */}
+
+                  <div className="flex flex-col">
+
+                    <span className="font-medium text-base">
+                      {cat.name}
+                    </span>
+
+                    {hasProducts && (
+                      <span className="text-xs text-gray-500">
+                        Conține produse
+                      </span>
+                    )}
+
+                  </div>
+
                 </div>
+
+                {/* ACTIONS */}
 
                 <div className="flex gap-4 text-sm">
 
@@ -111,7 +134,6 @@ export default async function CategoriesPage() {
 
                   <form action={deleteCategory}>
                     <input type="hidden" name="id" value={cat.id} />
-
                     <DeleteCategoryButton hasProducts={hasProducts} />
                   </form>
 

@@ -24,7 +24,7 @@ export default async function Home() {
 
           <Image
             src="/hero2.jpg"
-            alt="Mobilier profesional pentru magazine retail"
+            alt="Soluții profesionale pentru magazine retail"
             fill
             className="object-cover"
             priority
@@ -35,7 +35,7 @@ export default async function Home() {
           <div className="relative z-10 max-w-5xl px-6 text-white flex flex-col items-center">
 
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight">
-              Mobilier profesional pentru retail modern Craiova
+              Soluții profesionale pentru retail modern Craiova
             </h1>
 
             <p className="mt-6 md:mt-8 text-base md:text-xl text-gray-200 max-w-3xl">

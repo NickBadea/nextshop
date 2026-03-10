@@ -1,48 +1,118 @@
-import { createClient } from "@/lib/supabase-server";
-import { redirect } from "next/navigation";
+"use client";
 
-export const dynamic = "force-dynamic";
+import { useState, useEffect, use } from "react";
+import { createBrowserClient } from "@supabase/ssr";
+import { useRouter } from "next/navigation";
 
-async function updateCategory(formData: FormData) {
-  "use server";
-
-  const supabase = await createClient();
-
-  const id = formData.get("id");
-  const name = formData.get("name");
-
-  await supabase
-    .from("categories")
-    .update({
-      name,
-    })
-    .eq("id", id);
-
-  redirect("/admin/categories");
-}
-
-export default async function EditCategory({
+export default function EditCategory({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const { id } = await params;
 
-  const supabase = await createClient();
+  const { id } = use(params);
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const router = useRouter();
 
-  if (!user) redirect("/admin/login");
+  const supabase = createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
 
-  const { data: category } = await supabase
-    .from("categories")
-    .select("*")
-    .eq("id", id)
-    .single();
+  const [category, setCategory] = useState<any>(null);
+  const [image, setImage] = useState<File | null>(null);
 
-  if (!category) redirect("/admin/categories");
+  useEffect(() => {
+
+    const loadCategory = async () => {
+
+      const { data } = await supabase
+        .from("categories")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+      setCategory(data);
+
+    };
+
+    loadCategory();
+
+  }, [id]);
+
+  const handleSubmit = async () => {
+
+    let imageUrl = category.image;
+
+    if (image) {
+
+      const fileName = `${Date.now()}-${image.name}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from("categories")
+        .upload(fileName, image);
+
+      if (uploadError) {
+        alert(uploadError.message);
+        return;
+      }
+
+      const { data } = supabase.storage
+        .from("categories")
+        .getPublicUrl(fileName);
+
+      imageUrl = data.publicUrl;
+
+    }
+
+    const { error } = await supabase
+      .from("categories")
+      .update({
+        name: category.name,
+        image: imageUrl,
+      })
+      .eq("id", id);
+
+    if (error) {
+      alert(error.message);
+      return;
+    }
+
+    router.push("/admin/categories");
+
+  };
+
+  const deleteImage = async () => {
+
+    if (!category.image) return;
+
+    const path = category.image.split("/categories/")[1];
+
+    await supabase.storage
+      .from("categories")
+      .remove([path]);
+
+    await supabase
+      .from("categories")
+      .update({
+        image: null,
+      })
+      .eq("id", id);
+
+    setCategory({
+      ...category,
+      image: null,
+    });
+
+  };
+
+  if (!category) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        Se încarcă...
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 px-4 py-8">
@@ -53,31 +123,55 @@ export default async function EditCategory({
           Editează categorie
         </h1>
 
-        <form action={updateCategory} className="space-y-6">
+        {/* NAME */}
 
-          <input type="hidden" name="id" value={id} />
+        <input
+          className="w-full border rounded-lg p-3 mb-4"
+          value={category.name}
+          onChange={(e) =>
+            setCategory({ ...category, name: e.target.value })
+          }
+        />
 
-          <div>
-            <label className="block mb-2 font-medium">
-              Nume categorie
-            </label>
+        {/* IMAGE PREVIEW */}
 
-            <input
-              name="name"
-              defaultValue={category.name}
-              required
-              className="w-full border rounded-lg p-3"
+        {category.image && (
+
+          <div className="mb-4">
+
+            <img
+              src={category.image}
+              className="w-full h-40 object-cover rounded mb-3"
             />
+
+            <button
+              onClick={deleteImage}
+              className="text-red-600 text-sm hover:underline"
+            >
+              Șterge imagine
+            </button>
+
           </div>
 
-          <button
-            type="submit"
-            className="w-full sm:w-auto bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition"
-          >
-            Salvează modificările
-          </button>
+        )}
 
-        </form>
+        {/* NEW IMAGE */}
+
+        <input
+          type="file"
+          accept="image/*"
+          className="w-full border rounded-lg p-3 mb-6"
+          onChange={(e) => setImage(e.target.files?.[0] || null)}
+        />
+
+        {/* SAVE */}
+
+        <button
+          onClick={handleSubmit}
+          className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
+        >
+          Salvează
+        </button>
 
       </div>
 

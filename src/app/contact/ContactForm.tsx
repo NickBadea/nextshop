@@ -249,17 +249,17 @@ export default function ContactPage() {
 
                 <div className="flex items-start gap-3">
                   <IconPin/>
-                  <p>Showroom: Zona Metro, Calea București nr. 139, Craiova</p>
+                  <p>Showroom: Zona Metro, Calea București nr. 139A, Pielești</p>
                 </div>
 
                 <div className="flex items-center gap-3">
                   <IconPhone/>
-                  <p>+40 763 990 927</p>
+                  <p>+40 771 753 423</p>
                 </div>
 
                 <div className="flex items-center gap-3">
                   <IconMail/>
-                  <p>contact@nextshopretail.ro</p>
+                  <p>nextshopretail@yahoo.com</p>
                 </div>
 
               </div>
@@ -270,7 +270,7 @@ export default function ContactPage() {
 
               <iframe
                 title="Harta"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d814.2603581198393!2d23.897433775660975!3d44.31276006622484!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4752d4235c890917%3A0x68aa176f3d98864a!2sCalea%20Bucure%C8%99ti%20nr%20139%2C%20207450!5e1!3m2!1sen!2sro!4v1773075623526!5m2!1sen!2sro"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3122.497871684504!2d23.89482521205815!3d44.31292727095786!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4752d4247e895555%3A0x9112e14b6229afcc!2sCalea%20Bucure%C8%99ti%20139a%2C%20207450%20Piele%C8%99ti!5e1!3m2!1sen!2sro!4v1773168349146!5m2!1sen!2sro"
                 width="100%"
                 height="320"
                 loading="lazy"

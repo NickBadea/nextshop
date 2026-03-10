@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 export const dynamic = "force-dynamic";
 
 export default function NewCategory() {
+
   const router = useRouter();
 
   const supabase = createBrowserClient(
@@ -15,16 +16,44 @@ export default function NewCategory() {
   );
 
   const [name, setName] = useState("");
+  const [image, setImage] = useState<File | null>(null);
 
   const handleSubmit = async () => {
+
     const slug = name.toLowerCase().replace(/\s+/g, "-");
 
-    const { error } = await supabase.from("categories").insert([
-      {
-        name,
-        slug,
-      },
-    ]);
+    let imageUrl = null;
+
+    if (image) {
+
+      const fileName = `${Date.now()}-${image.name}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from("categories")
+        .upload(fileName, image);
+
+      if (uploadError) {
+        alert(uploadError.message);
+        return;
+      }
+
+      const { data } = supabase.storage
+        .from("categories")
+        .getPublicUrl(fileName);
+
+      imageUrl = data.publicUrl;
+
+    }
+
+    const { error } = await supabase
+      .from("categories")
+      .insert([
+        {
+          name,
+          slug,
+          image: imageUrl,
+        },
+      ]);
 
     if (error) {
       alert(error.message);
@@ -32,6 +61,7 @@ export default function NewCategory() {
     }
 
     router.push("/admin/categories");
+
   };
 
   return (
@@ -46,9 +76,16 @@ export default function NewCategory() {
         <input
           type="text"
           placeholder="Nume categorie"
-          className="w-full border rounded-lg p-3 mb-6"
+          className="w-full border rounded-lg p-3 mb-4"
           value={name}
           onChange={(e) => setName(e.target.value)}
+        />
+
+        <input
+          type="file"
+          accept="image/*"
+          className="w-full border rounded-lg p-3 mb-6"
+          onChange={(e) => setImage(e.target.files?.[0] || null)}
         />
 
         <button

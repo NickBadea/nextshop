@@ -2,14 +2,56 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuote } from "@/context/QuoteContext";
+import { supabase } from "@/lib/supabase";
+import { ChevronDown } from "lucide-react";
 
 export default function Navbar() {
-  const [open, setOpen] = useState(false);
-  const { items } = useQuote();
 
+  const [open, setOpen] = useState(false);
+  const [productsOpen, setProductsOpen] = useState(false);
+  const [categories, setCategories] = useState<any[]>([]);
+
+  const { items } = useQuote();
   const totalItems = items.reduce((total, item) => total + item.quantity, 0);
+
+  const categoryOrder = [
+    "rafturi",
+    "gondole",
+    "fructe-&-legume",
+    "panificație",
+    "vitrine",
+    "coffee-corner",
+    "tejghele",
+    "accesorii",
+  ];
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+
+      const { data } = await supabase
+        .from("categories")
+        .select("name,slug");
+
+      if (!data) return;
+
+      const sorted = data.sort((a, b) => {
+        const aIndex = categoryOrder.indexOf(a.slug);
+        const bIndex = categoryOrder.indexOf(b.slug);
+
+        if (aIndex === -1) return 1;
+        if (bIndex === -1) return -1;
+
+        return aIndex - bIndex;
+      });
+
+      setCategories(sorted);
+
+    };
+
+    fetchCategories();
+  }, []);
 
   return (
     <>
@@ -17,22 +59,54 @@ export default function Navbar() {
 
         <div className="max-w-7xl mx-auto px-4 md:px-6 h-20 flex items-center justify-between">
 
-          {/* LOGO */}
+          {/* LOGO + SOCIAL */}
 
-          <Link href="/" className="flex items-center">
-            <Image
-              src="/logo.png"
-              alt="Logo"
-              width={200}
-              height={90}
-              priority
-              className="object-contain"
-            />
-          </Link>
+          <div className="flex items-center gap-6">
+
+            <Link href="/" className="flex items-center">
+              <Image
+                src="/logo.png"
+                alt="Logo"
+                width={200}
+                height={90}
+                priority
+                className="object-contain"
+              />
+            </Link>
+
+            {/* SOCIAL */}
+
+            <div className="hidden md:flex items-center gap-3">
+
+              <a
+                href="https://facebook.com/nextshopretail"
+                target="_blank"
+                className="w-9 h-9 flex items-center justify-center border border-gray-300 rounded-full hover:bg-gray-100 transition"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2">
+  <path d="M18 2h-3c-3 0-5 2-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7c0-1 .5-1 1-1h3z"/>
+</svg>
+              </a>
+
+              <a
+                href="https://instagram.com/nextshopretail"
+                target="_blank"
+                className="w-9 h-9 flex items-center justify-center border border-gray-300 rounded-full hover:bg-gray-100 transition"
+              >
+               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2">
+  <rect x="3" y="3" width="18" height="18" rx="5"/>
+  <circle cx="12" cy="12" r="4"/>
+  <circle cx="17" cy="7" r="1"/>
+</svg>
+              </a>
+
+            </div>
+
+          </div>
 
           {/* DESKTOP MENU */}
 
-          <nav className="hidden md:flex items-center gap-10 text-base font-semibold text-gray-800">
+          <nav className="hidden md:flex items-center gap-10 text-[15px] font-semibold text-gray-800">
 
             <Link href="/" className="hover:text-blue-600 transition">
               Home
@@ -42,9 +116,42 @@ export default function Navbar() {
               Cine suntem
             </Link>
 
-            <Link href="/produse" className="hover:text-blue-600 transition">
-              Produse
-            </Link>
+            {/* PRODUSE DROPDOWN */}
+
+            <div className="relative group">
+
+              <Link
+                href="/produse"
+                className="flex items-center gap-1 hover:text-blue-600 transition"
+              >
+                Produse
+                <ChevronDown
+                  size={16}
+                  className="transition group-hover:rotate-180"
+                />
+              </Link>
+
+              <div className="absolute left-0 top-full mt-4 w-64 bg-white border border-gray-200 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+
+                <div className="py-2">
+
+                  {categories.map((cat) => (
+
+                    <Link
+                      key={cat.slug}
+                      href={`/produse/${cat.slug}`}
+                      className="block px-5 py-3 text-sm hover:bg-gray-50"
+                    >
+                      {cat.name}
+                    </Link>
+
+                  ))}
+
+                </div>
+
+              </div>
+
+            </div>
 
             <Link href="/contact" className="hover:text-blue-600 transition">
               Contact
@@ -100,8 +207,6 @@ export default function Navbar() {
         }`}
       >
 
-        {/* HEADER */}
-
         <div className="flex items-center justify-between px-6 h-20 border-b">
 
           <Image
@@ -117,8 +222,6 @@ export default function Navbar() {
 
         </div>
 
-        {/* MENU */}
-
         <nav className="flex flex-col px-8 pt-10 gap-6 text-lg font-semibold text-gray-900">
 
           <Link href="/" onClick={() => setOpen(false)}>
@@ -129,9 +232,38 @@ export default function Navbar() {
             Cine suntem
           </Link>
 
-          <Link href="/produse" onClick={() => setOpen(false)}>
+          {/* MOBILE PRODUSE */}
+
+          <button
+            onClick={() => setProductsOpen(!productsOpen)}
+            className="flex justify-between items-center"
+          >
             Produse
-          </Link>
+            <ChevronDown
+              size={18}
+              className={`transition ${productsOpen ? "rotate-180" : ""}`}
+            />
+          </button>
+
+          {productsOpen && (
+
+            <div className="flex flex-col pl-4 gap-3 text-base">
+
+              {categories.map((cat) => (
+
+                <Link
+                  key={cat.slug}
+                  href={`/produse/${cat.slug}`}
+                  onClick={() => setOpen(false)}
+                >
+                  {cat.name}
+                </Link>
+
+              ))}
+
+            </div>
+
+          )}
 
           <Link href="/contact" onClick={() => setOpen(false)}>
             Contact
@@ -148,8 +280,6 @@ export default function Navbar() {
         </nav>
 
       </div>
-
-      {/* SPACER */}
 
       <div className="h-20"></div>
     </>
