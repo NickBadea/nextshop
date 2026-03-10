@@ -26,12 +26,29 @@ export const metadata = {
   },
 
   openGraph: {
-    title: "NextShop",
-    description: "Mobilier profesional pentru magazine retail.",
-    url: "https://nextshopretail.ro",
-    siteName: "NextShop",
-    locale: "ro_RO",
-    type: "website",
+  title: "NextShop",
+  description: "Mobilier profesional pentru magazine retail.",
+  url: "https://nextshopretail.ro",
+  siteName: "NextShop",
+  locale: "ro_RO",
+  type: "website",
+
+  images: [
+    {
+      url: "/og-image.jpg",
+      width: 1200,
+      height: 630,
+      alt: "NextShop Retail",
+    },
+  ],
+},
+
+  twitter: {
+    card: "summary_large_image",
+    title: "NextShop | Mobilier profesional pentru retail",
+    description:
+      "Mobilier profesional pentru magazine retail: rafturi, vitrine, tejghele și soluții complete pentru spații comerciale.",
+    images: ["/og-image.jpg"],
   },
 
   robots: {
