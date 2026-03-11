@@ -128,7 +128,7 @@ export default function CategoriesDrag({ categories }: any) {
   const { data, error } = await supabase
     .from("categories")
     .update({ position: i })
-    .eq("id", newItems[i].id)
+    .eq("id", (newItems[i] as any).id)
     .select();
 
   console.log("update result", data, error);
