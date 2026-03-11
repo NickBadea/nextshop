@@ -1,22 +1,34 @@
 "use client";
 
-import { useEffect, useState, use } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 
-export default function EditProduct({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+type Category = {
+  id: string;
+  name: string;
+};
 
-  const { id } = use(params);
+type Product = {
+  id: string;
+  name: string;
+  description: string;
+  category_id: string;
+  images: string | null;
+};
+
+export default function EditProduct() {
+
+  const params = useParams();
+  const id = params.id as string;
+
   const router = useRouter();
 
-  const [product, setProduct] = useState<any>(null);
-  const [categories, setCategories] = useState<any[]>([]);
+  const [product, setProduct] = useState<Product | null>(null);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [images, setImages] = useState<string[]>([]);
   const [newFiles, setNewFiles] = useState<File[]>([]);
+  const [categoryId, setCategoryId] = useState("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -37,10 +49,13 @@ export default function EditProduct({
       return;
     }
 
-    setProduct(data);
+    const prod = data as Product;
+
+    setProduct(prod);
+    setCategoryId(prod.category_id);
 
     try {
-      setImages(JSON.parse(data.images || "[]"));
+      setImages(JSON.parse(prod.images || "[]"));
     } catch {
       setImages([]);
     }
@@ -48,16 +63,38 @@ export default function EditProduct({
 
   async function loadCategories() {
 
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("categories")
-      .select("*");
+      .select("*")
+      .order("name");
+
+    if (error) {
+      console.error(error);
+      return;
+    }
 
     setCategories(data || []);
   }
 
   function removeImage(index: number) {
+    setImages(images.filter((_, i) => i !== index));
+  }
 
-    const updated = images.filter((_, i) => i !== index);
+  function moveImageLeft(index: number) {
+
+    if (index === 0) return;
+
+    const updated = [...images];
+    [updated[index - 1], updated[index]] = [updated[index], updated[index - 1]];
+    setImages(updated);
+  }
+
+  function moveImageRight(index: number) {
+
+    if (index === images.length - 1) return;
+
+    const updated = [...images];
+    [updated[index + 1], updated[index]] = [updated[index], updated[index + 1]];
     setImages(updated);
   }
 
@@ -68,18 +105,17 @@ export default function EditProduct({
     for (const file of newFiles) {
 
       const fileExt = file.name.split(".").pop();
-      const fileName = `${Date.now()}-${Math.random()}.${fileExt}`;
+      const fileName = `${crypto.randomUUID()}.${fileExt}`;
       const filePath = `products/${fileName}`;
 
       const { error } = await supabase.storage
         .from("products")
         .upload(filePath, file, {
           contentType: file.type,
-          upsert: false,
         });
 
       if (error) {
-        console.error("Upload error:", error);
+        console.error(error);
         continue;
       }
 
@@ -93,19 +129,17 @@ export default function EditProduct({
     return uploadedUrls;
   }
 
-  async function handleSubmit(e: any) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
 
     e.preventDefault();
     setLoading(true);
 
-    const form = e.target;
+    const form = e.currentTarget;
 
-    const name = form.name.value;
-    const description = form.description.value;
-    const category_id = form.category_id.value;
+    const name = (form.elements.namedItem("name") as HTMLInputElement).value.trim();
+    const description = (form.elements.namedItem("description") as HTMLTextAreaElement).value.trim();
 
     const uploadedImages = await uploadImages();
-
     const finalImages = [...images, ...uploadedImages];
 
     const { error } = await supabase
@@ -113,7 +147,7 @@ export default function EditProduct({
       .update({
         name,
         description,
-        category_id,
+        category_id: categoryId,
         images: JSON.stringify(finalImages),
       })
       .eq("id", id);
@@ -158,8 +192,8 @@ export default function EditProduct({
           />
 
           <select
-            name="category_id"
-            defaultValue={product.category_id}
+            value={categoryId}
+            onChange={(e) => setCategoryId(e.target.value)}
             className="w-full border rounded-lg p-3"
           >
             {categories.map((cat) => (
@@ -169,33 +203,56 @@ export default function EditProduct({
             ))}
           </select>
 
-
-          {/* IMAGINI EXISTENTE */}
-
           <div>
 
             <h3 className="font-semibold mb-3">
-              Imagini existente
+              Imagini existente (prima = copertă)
             </h3>
 
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
 
               {images.map((img, i) => (
 
-                <div key={i} className="relative">
+                <div key={i} className="relative border rounded p-2 bg-white">
+
+                  {i === 0 && (
+                    <span className="absolute top-1 left-1 text-xs bg-black text-white px-2 py-1 rounded">
+                      Cover
+                    </span>
+                  )}
 
                   <img
                     src={img}
-                    className="w-full h-24 md:h-28 object-cover rounded border"
+                    className="w-full h-24 md:h-28 object-contain"
                   />
 
-                  <button
-                    type="button"
-                    onClick={() => removeImage(i)}
-                    className="absolute top-1 right-1 bg-red-600 text-white text-xs px-2 py-1 rounded"
-                  >
-                    X
-                  </button>
+                  <div className="flex justify-between mt-2">
+
+                    <button
+                      type="button"
+                      onClick={() => moveImageLeft(i)}
+                      className="text-xs bg-gray-200 px-2 py-1 rounded"
+                    >
+                      ←
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => moveImageRight(i)}
+                      className="text-xs bg-gray-200 px-2 py-1 rounded"
+                    >
+                      →
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => removeImage(i)}
+                      className="text-xs bg-red-600 text-white px-2 py-1 rounded"
+                    >
+                      X
+                    </button>
+
+                  </div>
 
                 </div>
 
@@ -204,9 +261,6 @@ export default function EditProduct({
             </div>
 
           </div>
-
-
-          {/* UPLOAD */}
 
           <div>
 
@@ -218,14 +272,15 @@ export default function EditProduct({
               type="file"
               multiple
               accept="image/*"
-              onChange={(e: any) =>
-                setNewFiles(Array.from(e.target.files))
-              }
+              onChange={(e) => {
+                if (e.target.files) {
+                  setNewFiles(Array.from(e.target.files));
+                }
+              }}
               className="w-full border rounded-lg p-2"
             />
 
           </div>
-
 
           <button
             disabled={loading}

@@ -18,7 +18,7 @@ export default function ProdusePage() {
       const { data } = await supabase
         .from("categories")
         .select("*")
-        .order("created_at", { ascending: true });
+       .order("position", { ascending: true })
 
       setCategories(data || []);
 

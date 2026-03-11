@@ -43,11 +43,11 @@ export default function CategoryPage() {
       const to = from + limit - 1;
 
       const { data, count } = await supabase
-        .from("products")
-        .select("*", { count: "exact" })
-        .eq("category_id", categoryData.id)
-        .order("created_at", { ascending: false })
-        .range(from, to);
+  .from("products")
+  .select("*", { count: "exact" })
+  .eq("category_id", categoryData.id)
+  .order("position", { ascending: true })
+  .range(from, to);
 
       setProducts(data || []);
       setTotalPages(Math.ceil((count || 0) / limit));
@@ -181,16 +181,16 @@ export default function CategoryPage() {
 
                   <Link href={`/produse/${encodeURIComponent(categorySlug)}/${encodeURIComponent(product.slug)}`}>
 
-                    <div className="aspect-[4/3] bg-gray-100 overflow-hidden">
+                    <div className="aspect-[4/3] bg-white overflow-hidden flex items-center justify-center">
 
-                      {images[0] && (
-                        <img
-                          src={images[0]}
-                          className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
-                        />
-                      )}
+  {images[0] && (
+    <img
+      src={images[0]}
+      className="w-full h-full object-contain p-4 transition duration-500 group-hover:scale-105"
+    />
+  )}
 
-                    </div>
+</div>
 
                   </Link>
 
@@ -221,73 +221,82 @@ export default function CategoryPage() {
 
         )}
 
-        {/* LIST VIEW */}
+       {/* LIST VIEW */}
 
-        {view === "list" && (
+{view === "list" && (
 
-          <div className="space-y-4">
+  <div className="space-y-6">
 
-            {filteredProducts.map((product) => {
+    {filteredProducts.map((product) => {
 
-              let images: string[] = [];
+      let images: string[] = [];
 
-              try {
-                images = product.images ? JSON.parse(product.images) : [];
-              } catch {}
+      try {
+        images = product.images ? JSON.parse(product.images) : [];
+      } catch {}
 
-              return (
+      return (
 
-                <div
-                  key={product.id}
-                  className="bg-white border rounded-xl p-4 flex items-center gap-4 hover:shadow-md transition"
-                >
+        <div
+          key={product.id}
+          className="bg-white rounded-2xl shadow-sm p-5 hover:shadow-md transition"
+        >
 
-                  <div className="w-20 h-20 bg-gray-100 rounded overflow-hidden">
+          {/* TITLU */}
 
-                    {images[0] && (
-                      <img
-                        src={images[0]}
-                        className="w-full h-full object-cover"
-                      />
-                    )}
+          <Link
+            href={`/produse/${encodeURIComponent(categorySlug)}/${encodeURIComponent(product.slug)}`}
+          >
+            <h3 className="font-semibold text-black text-lg mb-4 leading-snug">
+              {product.name}
+            </h3>
+          </Link>
 
-                  </div>
+          {/* CONTENT */}
 
-                  <div className="flex-1">
+          <div className="flex items-center gap-4">
 
-                    <Link href={`/produse/${encodeURIComponent(categorySlug)}/${encodeURIComponent(product.slug)}`}>
+            {/* IMAGINE */}
 
-                      <h3 className="font-semibold text-black text-lg hover:text-blue-600">
-                        {product.name}
-                      </h3>
+            <div className="w-28 h-24 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
 
-                    </Link>
+              {images[0] && (
+                <img
+                  src={images[0]}
+                  className="w-full h-full object-cover"
+                />
+              )}
 
-                  </div>
+            </div>
 
-                  <div className="w-[200px]">
+            {/* BUTON */}
 
-                    <AddToQuoteButton
-                      product={{
-                        id: product.id,
-                        name: product.name,
-                        slug: product.slug,
-                        image: images[0],
-                      }}
-                    />
+            <div className="flex-1 flex justify-end">
 
-                  </div>
+              <div className="w-full max-w-[180px]">
+                <AddToQuoteButton
+                  product={{
+                    id: product.id,
+                    name: product.name,
+                    slug: product.slug,
+                    image: images[0],
+                  }}
+                />
+              </div>
 
-                </div>
-
-              );
-
-            })}
+            </div>
 
           </div>
 
-        )}
+        </div>
 
+      );
+
+    })}
+
+  </div>
+
+)}
         {/* PAGINATION */}
 
         {totalPages >= 1 && (
