@@ -1,65 +1,103 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function ProductGallery({ images }: { images: string[] }) {
 
   const [active, setActive] = useState(0);
+  const [open, setOpen] = useState(false);
 
-  if (!images || images.length === 0) {
-    return (
-      <div className="aspect-square bg-gray-100 rounded-xl flex items-center justify-center">
-        Fără imagini
-      </div>
-    );
+  // =========================
+  // next / prev
+  // =========================
+
+  function next() {
+    setActive((prev) => (prev + 1) % images.length);
   }
 
+  function prev() {
+    setActive((prev) => (prev - 1 + images.length) % images.length);
+  }
+
+  // =========================
+  // keyboard navigation
+  // =========================
+
+  useEffect(() => {
+
+    function handleKey(e: KeyboardEvent) {
+
+      if (!open) return;
+
+      if (e.key === "ArrowRight") next();
+      if (e.key === "ArrowLeft") prev();
+      if (e.key === "Escape") setOpen(false);
+
+    }
+
+    window.addEventListener("keydown", handleKey);
+
+    return () => window.removeEventListener("keydown", handleKey);
+
+  }, [open]);
+
+  // =========================
+  // swipe mobile
+  // =========================
+
+  let touchStartX = 0;
+
+  function handleTouchStart(e: any) {
+    touchStartX = e.touches[0].clientX;
+  }
+
+  function handleTouchEnd(e: any) {
+
+    const diff = e.changedTouches[0].clientX - touchStartX;
+
+    if (diff > 50) prev();
+    if (diff < -50) next();
+
+  }
+
+  if (!images || images.length === 0) return null;
+
   return (
-    <div className="w-full">
+
+    <div>
 
       {/* MAIN IMAGE */}
 
-      <div className="relative w-full aspect-square md:aspect-[4/3] bg-white rounded-xl overflow-hidden border">
+      <div
+        className="cursor-zoom-in"
+        onClick={() => setOpen(true)}
+      >
 
         <img
-          src={images[active]}
-          alt=""
-          className="w-full h-full object-contain"
-        />
+  src={images[active]}
+  className="max-h-[520px] w-auto mx-auto rounded-xl object-contain"
+/>
 
       </div>
-
 
       {/* THUMBNAILS */}
 
       {images.length > 1 && (
 
-        <div className="flex gap-3 mt-4 overflow-x-auto pb-1">
+        <div className="flex gap-4 mt-4">
 
-          {images.map((img, index) => (
+          {images.map((img, i) => (
 
-            <button
-              key={index}
-              onClick={() => setActive(index)}
-              className={`
-              relative
-              w-20
-              h-20
-              rounded-lg
-              overflow-hidden
-              border
-              flex-shrink-0
-              ${active === index ? "border-black" : "border-gray-200"}
-              `}
-            >
-
-              <img
-                src={img}
-                alt=""
-                className="w-full h-full object-contain"
-              />
-
-            </button>
+            <img
+              key={i}
+              src={img}
+              onClick={() => setActive(i)}
+              className={`w-20 h-20 object-cover rounded-lg cursor-pointer border ${
+                active === i
+                  ? "border-black"
+                  : "border-gray-200"
+              }`}
+            />
 
           ))}
 
@@ -67,6 +105,64 @@ export default function ProductGallery({ images }: { images: string[] }) {
 
       )}
 
+      {/* LIGHTBOX */}
+
+      {open && (
+
+        <div
+          className="fixed inset-0 bg-black/90 flex items-center justify-center z-50"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
+
+          {/* CLOSE */}
+
+          <button
+            onClick={() => setOpen(false)}
+            className="absolute top-6 right-6 text-white text-4xl"
+          >
+            ×
+          </button>
+
+          {/* PREV */}
+
+          {images.length > 1 && (
+
+            <button
+              onClick={prev}
+              className="absolute left-6 text-white text-5xl"
+            >
+              ‹
+            </button>
+
+          )}
+
+          {/* IMAGE */}
+
+          <img
+            src={images[active]}
+            className="max-h-[85vh] max-w-[90vw] object-contain"
+          />
+
+          {/* NEXT */}
+
+          {images.length > 1 && (
+
+            <button
+              onClick={next}
+              className="absolute right-6 text-white text-5xl"
+            >
+              ›
+            </button>
+
+          )}
+
+        </div>
+
+      )}
+
     </div>
+
   );
+
 }

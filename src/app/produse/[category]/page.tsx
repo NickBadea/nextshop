@@ -14,7 +14,7 @@ export default function CategoryPage() {
   const params = useParams();
   const searchParams = useSearchParams();
 
-  const categorySlug = params.category as string;
+  const categorySlug = decodeURIComponent(params.category as string);
 
   const page = Number(searchParams.get("page") || 1);
   const limit = 16;
@@ -179,7 +179,7 @@ export default function CategoryPage() {
                   className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition group"
                 >
 
-                  <Link href={`/produse/${categorySlug}/${product.slug}`}>
+                  <Link href={`/produse/${encodeURIComponent(categorySlug)}/${encodeURIComponent(product.slug)}`}>
 
                     <div className="aspect-[4/3] bg-gray-100 overflow-hidden">
 
@@ -255,7 +255,7 @@ export default function CategoryPage() {
 
                   <div className="flex-1">
 
-                    <Link href={`/produse/${categorySlug}/${product.slug}`}>
+                    <Link href={`/produse/${encodeURIComponent(categorySlug)}/${encodeURIComponent(product.slug)}`}>
 
                       <h3 className="font-semibold text-black text-lg hover:text-blue-600">
                         {product.name}
