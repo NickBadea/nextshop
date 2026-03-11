@@ -82,29 +82,28 @@ export default function ProductGallery({ images }: { images: string[] }) {
 
       {/* THUMBNAILS */}
 
-      {images.length > 1 && (
+{images.length > 1 && (
 
-        <div className="flex gap-4 mt-4">
+  <div className="flex gap-4 mt-4 overflow-x-auto pb-2">
 
-          {images.map((img, i) => (
+    {images.map((img, i) => (
 
-            <img
-              key={i}
-              src={img}
-              onClick={() => setActive(i)}
-              className={`w-20 h-20 object-cover rounded-lg cursor-pointer border ${
-                active === i
-                  ? "border-black"
-                  : "border-gray-200"
-              }`}
-            />
+      <img
+        key={i}
+        src={img}
+        onClick={() => setActive(i)}
+        className={`w-20 h-20 min-w-[80px] object-cover rounded-lg cursor-pointer border ${
+          active === i
+            ? "border-black"
+            : "border-gray-200"
+        }`}
+      />
 
-          ))}
+    ))}
 
-        </div>
+  </div>
 
-      )}
-
+)}
       {/* LIGHTBOX */}
 
       {open && (
