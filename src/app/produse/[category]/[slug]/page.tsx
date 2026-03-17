@@ -155,9 +155,9 @@ export default async function ProductPage({
                   {product.name}
                 </h1>
 
-                <p className="text-gray-600 leading-relaxed mb-10">
-                  {product.description}
-                </p>
+                <p className="text-gray-600 leading-relaxed mb-10 whitespace-pre-line">
+  {product.description}
+</p>
 
                 {/* CTA */}
 
