@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { QuoteProvider } from "@/context/QuoteContext";
 import { Toaster } from "react-hot-toast";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 export const metadata = {
   metadataBase: new URL("https://nextshopretail.ro"),
@@ -26,22 +27,22 @@ export const metadata = {
   },
 
   openGraph: {
-  title: "NextShop",
-  description: "Mobilier profesional pentru magazine retail.",
-  url: "https://nextshopretail.ro",
-  siteName: "NextShop",
-  locale: "ro_RO",
-  type: "website",
+    title: "NextShop",
+    description: "Mobilier profesional pentru magazine retail.",
+    url: "https://nextshopretail.ro",
+    siteName: "NextShop",
+    locale: "ro_RO",
+    type: "website",
 
-  images: [
-    {
-      url: "/og-image.jpg",
-      width: 1200,
-      height: 630,
-      alt: "NextShop Retail",
-    },
-  ],
-},
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "NextShop Retail",
+      },
+    ],
+  },
 
   twitter: {
     card: "summary_large_image",
@@ -65,22 +66,18 @@ export default function RootLayout({
   return (
     <html lang="ro">
       <body>
-
         <QuoteProvider>
-
           <Navbar />
 
-          <main>
-            {children}
-          </main>
+          <main>{children}</main>
 
           <Footer />
-
         </QuoteProvider>
 
         <Toaster position="bottom-right" />
-
       </body>
+
+      <GoogleAnalytics gaId="G-V84XLNG7YS" />
     </html>
   );
 }
