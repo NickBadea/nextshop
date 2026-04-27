@@ -58,19 +58,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const categoryPages: MetadataRoute.Sitemap =
     categories?.map((category: any) => ({
-      url: `${baseUrl}/produse/${category.slug}`,
+      url: `${baseUrl}/produse/${encodeURIComponent(category.slug)}`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.8,
     })) || [];
 
   const productPages: MetadataRoute.Sitemap =
-    products?.map((product: any) => ({
-      url: `${baseUrl}/produse/${product.category?.slug}/${product.slug}`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.7,
-    })) || [];
+    products
+      ?.filter((product: any) => product.slug && product.category?.slug)
+      .map((product: any) => ({
+        url: `${baseUrl}/produse/${encodeURIComponent(
+          product.category.slug
+        )}/${encodeURIComponent(product.slug)}`,
+        lastModified: new Date(),
+        changeFrequency: "monthly",
+        priority: 0.7,
+      })) || [];
 
   return [...staticPages, ...categoryPages, ...productPages];
 }
