@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import { QuoteProvider } from "@/context/QuoteContext";
 import { Toaster } from "react-hot-toast";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import Script from "next/script";
 
 export const metadata = {
   metadataBase: new URL("https://nextshopretail.ro"),
@@ -124,6 +125,14 @@ export default function RootLayout({
         <Toaster position="bottom-right" />
 
         <GoogleAnalytics gaId="G-V84XLNG7YS" />
+
+        <Script id="google-ads-tag" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('config', 'AW-364165560');
+          `}
+        </Script>
       </body>
     </html>
   );
