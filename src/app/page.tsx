@@ -6,9 +6,12 @@ import Reveal from "@/components/Reveal";
 import { getCategories } from "@/lib/getCategories";
 
 export const metadata = {
-  title: "Mobilier profesional pentru magazine retail",
+  title: "Rafturi metalice, vitrine frigorifice și mobilier comercial Craiova",
   description:
-    "Tejghele, rafturi și vitrine profesionale pentru magazine retail. Soluții complete pentru spații comerciale în Craiova.",
+    "NextShop oferă rafturi metalice, gondole, vitrine frigorifice, tejghele, case de marcat și mobilier comercial pentru magazine în Craiova și în toată România.",
+  alternates: {
+    canonical: "https://nextshopretail.ro",
+  },
 };
 
 export default async function Home() {
@@ -35,13 +38,12 @@ export default async function Home() {
           <div className="relative z-10 max-w-5xl px-6 text-white flex flex-col items-center">
 
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight">
-              Soluții profesionale pentru retail modern Craiova
-            </h1>
-
+  Rafturi, vitrine, tejghele și mobilier comercial
+</h1>
             <p className="mt-6 md:mt-8 text-base md:text-xl text-gray-200 max-w-3xl">
-              Tejghele, rafturi și vitrine proiectate pentru performanță,
-              durabilitate și design contemporan.
-            </p>
+  Soluții complete pentru magazine: rafturi, gondole, vitrine frigorifice,
+  tejghele, case de marcat și mobilier comercial în Craiova și în toată România.
+</p>
 
             <div className="mt-8 md:mt-12 flex flex-col sm:flex-row gap-4 sm:gap-6">
 
@@ -80,12 +82,14 @@ export default async function Home() {
               </h2>
 
               <p className="text-gray-600 leading-relaxed text-base md:text-lg">
-                Oferim soluții profesionale în Craiova pentru amenajarea magazinelor și spațiilor comerciale.
-                De la rafturi modulare și tejghele până la vitrine și echipamente pentru retail,
-                ajutăm antreprenorii să creeze magazine funcționale, bine organizate și ușor de gestionat.
-                Punem accent pe produse durabile, soluții eficiente de expunere și consultanță
-                în alegerea echipamentelor potrivite pentru fiecare tip de magazin.
-              </p>
+  NextShop oferă soluții profesionale pentru amenajarea magazinelor și
+  spațiilor comerciale: rafturi metalice, gondole, vitrine frigorifice,
+  tejghele, case de marcat și mobilier comercial. Lucrăm cu magazine,
+  supermarketuri, minimarketuri, brutării, cafenele și alte spații comerciale
+  care au nevoie de produse durabile, funcționale și ușor de integrat în
+  designul magazinului. Oferim consultanță și soluții adaptate pentru clienți
+  din Craiova și din toată România.
+</p>
 
               <Link
                 href="/cine-suntem"
