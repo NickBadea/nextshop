@@ -11,12 +11,14 @@ export const metadata = {
 
   title: {
     default:
-      "Rafturi metalice, vitrine frigorifice și mobilier comercial | NextShop",
-    template: "%s | NextShop",
+      "Rafturi metalice, vitrine frigorifice și mobilier comercial | NextShop Retail",
+    template: "%s | NextShop Retail",
   },
 
   description:
-    "NextShop oferă rafturi metalice, gondole, vitrine frigorifice, tejghele, case de marcat și mobilier comercial pentru magazine, supermarketuri și spații retail în Craiova și în toată România.",
+    "NextShop Retail oferă rafturi metalice, gondole, vitrine frigorifice, tejghele, case de marcat și mobilier comercial pentru magazine, supermarketuri și spații retail în Craiova și în toată România.",
+
+  applicationName: "NextShop Retail",
 
   keywords: [
     "rafturi metalice",
@@ -32,6 +34,7 @@ export const metadata = {
     "amenajare magazin",
     "echipamente retail",
     "NextShop",
+    "NextShop Retail",
   ],
 
   icons: {
@@ -49,7 +52,7 @@ export const metadata = {
     description:
       "Soluții complete pentru magazine: rafturi metalice, gondole, vitrine frigorifice, tejghele, case de marcat și mobilier comercial în Craiova și România.",
     url: "https://nextshopretail.ro",
-    siteName: "NextShop",
+    siteName: "NextShop Retail",
     locale: "ro_RO",
     type: "website",
     images: [
@@ -57,7 +60,7 @@ export const metadata = {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "NextShop - rafturi metalice, vitrine frigorifice și mobilier comercial",
+        alt: "NextShop Retail - rafturi metalice, vitrine frigorifice și mobilier comercial",
       },
     ],
   },
@@ -66,7 +69,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "Rafturi metalice, vitrine frigorifice și mobilier comercial",
     description:
-      "NextShop oferă soluții complete pentru magazine: rafturi, vitrine frigorifice, gondole, tejghele și mobilier comercial.",
+      "NextShop Retail oferă soluții complete pentru magazine: rafturi, vitrine frigorifice, gondole, tejghele și mobilier comercial.",
     images: ["/og-image.jpg"],
   },
 
@@ -80,10 +83,19 @@ export const metadata = {
   },
 };
 
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "NextShop Retail",
+  alternateName: "NextShop",
+  url: "https://nextshopretail.ro",
+};
+
 const localBusinessSchema = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
-  name: "NextShop",
+  name: "NextShop Retail",
+  alternateName: "NextShop",
   url: "https://nextshopretail.ro",
   image: "https://nextshopretail.ro/og-image.jpg",
   description:
@@ -110,6 +122,13 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
+            __html: JSON.stringify(websiteSchema),
+          }}
+        />
+
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
             __html: JSON.stringify(localBusinessSchema),
           }}
         />
@@ -127,18 +146,18 @@ export default function RootLayout({
         <GoogleAnalytics gaId="G-V84XLNG7YS" />
 
         <Script
-  src="https://www.googletagmanager.com/gtag/js?id=AW-364165560"
-  strategy="afterInteractive"
-/>
+          src="https://www.googletagmanager.com/gtag/js?id=AW-364165560"
+          strategy="afterInteractive"
+        />
 
-<Script id="google-ads-tag" strategy="afterInteractive">
-  {`
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'AW-364165560');
-  `}
-</Script>
+        <Script id="google-ads-tag" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-364165560');
+          `}
+        </Script>
       </body>
     </html>
   );
