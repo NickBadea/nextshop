@@ -549,8 +549,8 @@ export default async function Home() {
             </div>
 
             <p className="mt-10 text-gray-600 leading-relaxed text-base md:text-lg max-w-3xl mx-auto">
-              La NextShop, pornim orice proiect de amenajare magazin de la o
-              discuție despre specificul afacerii tale. Analizăm dimensiunea
+              Pornim orice proiect de amenajare magazin de la o discuție
+              despre specificul afacerii tale. Analizăm dimensiunea
               spațiului, tipul de produse pe care le vinzi, fluxul estimat de
               clienți și bugetul disponibil, iar apoi recomandăm o combinație
               de rafturi metalice, gondole, vitrine frigorifice și tejghele
@@ -650,14 +650,13 @@ export default async function Home() {
             </p>
 
             <p className="mt-6 text-gray-600 leading-relaxed text-base md:text-lg max-w-3xl mx-auto">
-              La NextShop, oferim soluții complete de amenajare supermarket:
-              de la rafturi metalice modulare, care pot fi reconfigurate pe
-              măsură ce gama de produse se extinde, până la vitrine
-              frigorifice profesionale pentru produsele care necesită
-              refrigerare constantă. Lucrăm atât cu supermarketuri care se
-              deschid pentru prima dată, cât și cu spații existente care au
-              nevoie de o reorganizare sau de o extindere a zonelor de
-              expunere.
+              Oferim soluții complete de amenajare supermarket: de la rafturi
+              metalice modulare, care pot fi reconfigurate pe măsură ce gama
+              de produse se extinde, până la vitrine frigorifice profesionale
+              pentru produsele care necesită refrigerare constantă. Lucrăm
+              atât cu supermarketuri care se deschid pentru prima dată, cât
+              și cu spații existente care au nevoie de o reorganizare sau de
+              o extindere a zonelor de expunere.
             </p>
 
             <div className="mt-8 max-w-3xl mx-auto flex gap-4 rounded-xl bg-blue-600 p-6">
@@ -738,10 +737,10 @@ export default async function Home() {
             </div>
 
             <p className="mt-12 text-gray-600 leading-relaxed text-base md:text-lg text-center max-w-3xl mx-auto">
-              La NextShop, te ajutăm să alegi rafturile magazin potrivite
-              pentru specificul afacerii tale, ținând cont de tipul
-              produselor, dimensiunea spațiului și bugetul disponibil, astfel
-              încât investiția să fie una eficientă pe termen lung.
+              Te ajutăm să alegi rafturile magazin potrivite pentru specificul
+              afacerii tale, ținând cont de tipul produselor, dimensiunea
+              spațiului și bugetul disponibil, astfel încât investiția să fie
+              una eficientă pe termen lung.
             </p>
           </div>
         </section>
@@ -758,9 +757,9 @@ export default async function Home() {
             <p className="text-white/90 leading-relaxed text-base md:text-lg text-center max-w-3xl mx-auto mb-12 md:mb-16">
               Un proiect de amenajare magazin sau amenajare supermarket
               implică mai mulți pași, de la prima discuție până la montajul
-              final al mobilierului comercial. La NextShop, urmăm un proces
-              clar, astfel încât fiecare client să știe exact la ce să se
-              aștepte în fiecare etapă.
+              final al mobilierului comercial. Urmăm un proces clar, astfel
+              încât fiecare client să știe exact la ce să se aștepte în
+              fiecare etapă.
             </p>
 
             <div className="space-y-6">
