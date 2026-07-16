@@ -107,6 +107,19 @@ export default function QuotePage() {
         return
       }
 
+      fetch("/api/quote-email",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+          name:cleanName,
+          phone:cleanPhone,
+          company:cleanCompany,
+          email:cleanEmail,
+          message:cleanMessage,
+          products:items
+        })
+      }).catch((err)=>console.error("Notificare email eșuată:",err))
+
       localStorage.setItem("quote_last_submit",String(Date.now()))
 
       clearQuote()
