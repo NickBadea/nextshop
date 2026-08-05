@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Reveal from "@/components/Reveal";
 import FaqAccordion from "@/components/FaqAccordion";
+import { getAllPosts } from "@/lib/blog";
 import {
   Eye,
   MoveHorizontal,
@@ -109,7 +110,17 @@ const faqItems = [
   },
 ];
 
+function formatDate(date: string) {
+  return new Intl.DateTimeFormat("ro-RO", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  }).format(new Date(date));
+}
+
 export default async function Home() {
+  const latestPosts = getAllPosts().slice(0, 3);
+
   return (
     <main className="bg-white">
       {/* HERO */}
@@ -917,6 +928,71 @@ export default async function Home() {
               produse care servește real nevoile magazinului, brutăriei,
               cafenelei sau supermarketului tău.
             </p>
+          </div>
+        </section>
+      </Reveal>
+
+      {/* ULTIMELE ARTICOLE */}
+      <Reveal>
+        <section className="py-16 md:py-28 bg-gray-50">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="text-center max-w-3xl mx-auto mb-12 md:mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold text-black mb-6">
+                Ultimele articole de pe blog
+              </h2>
+
+              <p className="text-gray-600 leading-relaxed md:text-lg">
+                Ghiduri practice despre amenajare magazin, mobilier comercial
+                și echipamente pentru spații comerciale.
+              </p>
+            </div>
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              {latestPosts.map((post) => (
+                <Link
+                  key={post.slug}
+                  href={`/blog/${post.slug}`}
+                  className="group bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition duration-300"
+                >
+                  <div className="relative h-48 bg-gray-200 overflow-hidden">
+                    <Image
+                      src={post.coverImage}
+                      alt={post.title}
+                      fill
+                      className="object-cover group-hover:scale-105 transition duration-500"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
+                  </div>
+
+                  <div className="p-6">
+                    <p className="text-sm text-gray-500 mb-2">
+                      {formatDate(post.date)}
+                    </p>
+
+                    <h3 className="text-xl font-semibold text-black mb-3">
+                      {post.title}
+                    </h3>
+
+                    <p className="text-gray-600 leading-relaxed">
+                      {post.excerpt}
+                    </p>
+
+                    <span className="inline-block mt-5 text-blue-600 font-semibold">
+                      Citește articolul →
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+
+            <div className="text-center mt-12 md:mt-16">
+              <Link
+                href="/blog"
+                className="inline-block border border-blue-600 text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-600 hover:text-white transition"
+              >
+                Vezi toate articolele
+              </Link>
+            </div>
           </div>
         </section>
       </Reveal>
