@@ -48,6 +48,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "weekly",
       priority: 0.7,
     },
+    {
+      url: `${baseUrl}/blog/ghid-amenajare-magazin`,
+      lastModified: new Date("2026-08-05"),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
   ];
 
   const blogPages: MetadataRoute.Sitemap = getAllPosts().map((post) => ({

@@ -46,7 +46,47 @@ export default function BlogIndexPage() {
         </div>
       </section>
 
-      <section className="py-20">
+      <section className="pt-16 md:pt-20">
+        <div className="max-w-7xl mx-auto px-6">
+          <Link
+            href="/blog/ghid-amenajare-magazin"
+            className="group flex flex-col md:flex-row gap-6 md:gap-8 items-stretch rounded-2xl overflow-hidden bg-blue-600 shadow-lg hover:shadow-xl transition duration-300 mb-16"
+          >
+            <div className="relative h-56 md:h-auto md:w-2/5 shrink-0">
+              <Image
+                src="/why.jpg"
+                alt="Ghidul complet de amenajare a unui magazin"
+                fill
+                className="object-cover group-hover:scale-105 transition duration-500"
+                sizes="(max-width: 768px) 100vw, 40vw"
+              />
+            </div>
+
+            <div className="p-6 md:p-10 flex flex-col justify-center">
+              <p className="text-sm font-semibold text-blue-200 uppercase tracking-wide mb-3">
+                Ghid interactiv
+              </p>
+
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
+                Ghidul complet de amenajare a unui magazin
+              </h2>
+
+              <p className="text-white/90 leading-relaxed mb-6">
+                16 secțiuni, checklist bifabil pentru autorizații, quiz „ce
+                layout ți se potrivește” și un calculator orientativ de
+                metri liniari de raft — de la primul metru pătrat până la
+                deschidere.
+              </p>
+
+              <span className="inline-block text-white font-semibold">
+                Deschide ghidul →
+              </span>
+            </div>
+          </Link>
+        </div>
+      </section>
+
+      <section className="pb-20">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {posts.map((post) => (

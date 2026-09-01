@@ -397,7 +397,10 @@ export default function ProduseClient() {
 
       {/* IDEI DE AMENAJARE PENTRU MAGAZIN MIXT */}
       <Reveal>
-        <section className="py-16 md:py-28 bg-blue-600">
+        <section
+          id="amenajare-magazin-mixt"
+          className="py-16 md:py-28 bg-blue-600 scroll-mt-24"
+        >
           <div className="max-w-6xl mx-auto px-6">
             <p className="text-center text-white/80 font-semibold tracking-wide uppercase text-sm mb-4">
               Magazin mixt
