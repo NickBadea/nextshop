@@ -21,11 +21,33 @@ export async function generateMetadata({
     return {};
   }
 
+  const url = `https://nextshopretail.ro/blog/${post.slug}`;
+  const imageUrl = `https://nextshopretail.ro${post.coverImage}`;
+
   return {
-    title: `${post.title} | Blog NextShop`,
+    // Dacă articolul are un titlu SEO dedicat (metaTitle), acesta ocolește template-ul din layout.
+    title: post.metaTitle
+      ? { absolute: post.metaTitle }
+      : `${post.title} | Blog NextShop`,
     description: post.excerpt,
     alternates: {
-      canonical: `https://nextshopretail.ro/blog/${post.slug}`,
+      canonical: url,
+    },
+    openGraph: {
+      title: post.metaTitle ?? post.title,
+      description: post.excerpt,
+      url,
+      siteName: "NextShop Retail",
+      locale: "ro_RO",
+      type: "article",
+      publishedTime: post.date,
+      images: [{ url: imageUrl, alt: post.coverAlt ?? post.title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.metaTitle ?? post.title,
+      description: post.excerpt,
+      images: [imageUrl],
     },
   };
 }
@@ -50,12 +72,43 @@ export default async function BlogPostPage({
     notFound();
   }
 
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: post.title,
+    description: post.excerpt,
+    image: `https://nextshopretail.ro${post.coverImage}`,
+    datePublished: post.date,
+    dateModified: post.date,
+    author: {
+      "@type": "Organization",
+      name: "NextShop Retail",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "NextShop Retail",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://nextshopretail.ro/logo.png",
+      },
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `https://nextshopretail.ro/blog/${post.slug}`,
+    },
+  };
+
   return (
     <main className="bg-white min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+
       <section className="relative h-[300px] md:h-[420px] flex items-center">
         <Image
           src={post.coverImage}
-          alt={post.title}
+          alt={post.coverAlt ?? post.title}
           fill
           className="object-cover"
           priority

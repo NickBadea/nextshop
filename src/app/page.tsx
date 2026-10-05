@@ -957,7 +957,7 @@ export default async function Home() {
                   <div className="relative h-48 bg-gray-200 overflow-hidden">
                     <Image
                       src={post.coverImage}
-                      alt={post.title}
+                      alt={post.coverAlt ?? post.title}
                       fill
                       className="object-cover group-hover:scale-105 transition duration-500"
                       sizes="(max-width: 768px) 100vw, 33vw"

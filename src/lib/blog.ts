@@ -11,6 +11,9 @@ export type BlogPostMeta = {
   date: string;
   keyword: string;
   coverImage: string;
+  // Opționale: titlu SEO dedicat (înlocuiește formatul implicit) și alt descriptiv pentru imaginea de copertă.
+  metaTitle?: string;
+  coverAlt?: string;
 };
 
 export type BlogPost = BlogPostMeta & {
@@ -37,6 +40,8 @@ export function getAllPosts(): BlogPostMeta[] {
         date: data.date,
         keyword: data.keyword,
         coverImage: data.coverImage,
+        metaTitle: data.metaTitle,
+        coverAlt: data.coverAlt,
       };
     })
     .sort((a, b) => (a.date < b.date ? 1 : -1));
@@ -59,6 +64,8 @@ export function getPostBySlug(slug: string): BlogPost | null {
     date: data.date,
     keyword: data.keyword,
     coverImage: data.coverImage,
+    metaTitle: data.metaTitle,
+    coverAlt: data.coverAlt,
     content,
   };
 }
