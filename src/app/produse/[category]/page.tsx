@@ -3,6 +3,13 @@ export const dynamic = "force-dynamic";
 import { supabase } from "@/lib/supabase";
 import { notFound } from "next/navigation";
 import CategoryClient from "./CategoryClient";
+import { RafturiIntro, RafturiSections } from "@/components/produse/RafturiContent";
+import {
+  RAFTURI_H1,
+  RAFTURI_SEO,
+  RAFTURI_SLUG,
+  rafturiFaq,
+} from "@/lib/rafturi-content";
 
 type PageProps = {
   params: Promise<{
@@ -18,9 +25,8 @@ const categorySeo: Record<
   }
 > = {
   rafturi: {
-    title: "Rafturi metalice pentru magazine",
-    description:
-      "Rafturi metalice, gondole și soluții de expunere pentru magazine, supermarketuri, minimarketuri și spații comerciale.",
+    title: RAFTURI_SEO.title,
+    description: RAFTURI_SEO.description,
   },
   vitrine: {
     title: "Vitrine frigorifice pentru magazine",
@@ -91,9 +97,11 @@ export async function generateMetadata({ params }: PageProps) {
   }
 
   const seo = getSeoForCategory(categorySlug, categoryData.name);
+  const isRafturi = categorySlug === RAFTURI_SLUG;
 
   return {
-    title: seo.title,
+    // Titlul paginii de rafturi include deja sufixul brandului, deci ocolește template-ul din layout.
+    title: isRafturi ? { absolute: seo.title } : seo.title,
     description: seo.description,
     alternates: {
       canonical: `https://nextshopretail.ro/produse/${encodeURIComponent(
@@ -101,7 +109,7 @@ export async function generateMetadata({ params }: PageProps) {
       )}`,
     },
     openGraph: {
-      title: `${seo.title} | NextShop`,
+      title: isRafturi ? seo.title : `${seo.title} | NextShop`,
       description: seo.description,
       url: `https://nextshopretail.ro/produse/${encodeURIComponent(
         categorySlug
@@ -119,7 +127,7 @@ export default async function CategoryPage({ params }: PageProps) {
 
   const { data: categoryData } = await supabase
     .from("categories")
-    .select("name, slug")
+    .select("name, slug, image")
     .eq("slug", categorySlug)
     .maybeSingle();
 
@@ -162,6 +170,23 @@ export default async function CategoryPage({ params }: PageProps) {
     )}`,
   };
 
+  const isRafturi = categorySlug === RAFTURI_SLUG;
+
+  const faqSchema = isRafturi
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: rafturiFaq.map((item) => ({
+          "@type": "Question",
+          name: item.question,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: item.answer,
+          },
+        })),
+      }
+    : null;
+
   return (
     <>
       <script
@@ -178,7 +203,22 @@ export default async function CategoryPage({ params }: PageProps) {
         }}
       />
 
-      <CategoryClient categorySlug={categorySlug} />
+      {faqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(faqSchema),
+          }}
+        />
+      )}
+
+      <CategoryClient
+        categorySlug={categorySlug}
+        initialCategory={{ name: categoryData.name, image: categoryData.image }}
+        title={isRafturi ? RAFTURI_H1 : undefined}
+        intro={isRafturi ? <RafturiIntro /> : undefined}
+        afterContent={isRafturi ? <RafturiSections /> : undefined}
+      />
     </>
   );
 }

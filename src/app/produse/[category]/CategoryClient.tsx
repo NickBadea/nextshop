@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import Link from "next/link";
@@ -9,8 +9,20 @@ import { LayoutGrid, List } from "lucide-react";
 
 export default function CategoryClient({
   categorySlug,
+  initialCategory,
+  title,
+  intro,
+  afterContent,
 }: {
   categorySlug: string;
+  // Datele categoriei, deja încărcate pe server: H1-ul și hero-ul apar în HTML-ul inițial.
+  initialCategory?: { name: string; image?: string | null };
+  // Înlocuiește numele categoriei în H1, dacă e nevoie de un titlu dedicat.
+  title?: string;
+  // Conținut (randat pe server) între hero și grila de produse.
+  intro?: ReactNode;
+  // Conținut (randat pe server) după grila de produse.
+  afterContent?: ReactNode;
 }) {
   const searchParams = useSearchParams();
 
@@ -18,7 +30,7 @@ export default function CategoryClient({
   const limit = 16;
 
   const [products, setProducts] = useState<any[]>([]);
-  const [category, setCategory] = useState<any>(null);
+  const [category, setCategory] = useState<any>(initialCategory ?? null);
   const [search, setSearch] = useState("");
   const [view, setView] = useState<"grid" | "list">("grid");
   const [totalPages, setTotalPages] = useState(1);
@@ -90,9 +102,13 @@ export default function CategoryClient({
             <span className="font-medium">{category?.name}</span>
           </nav>
 
-          <h1 className="text-4xl md:text-5xl font-bold">{category?.name}</h1>
+          <h1 className="text-4xl md:text-5xl font-bold">
+            {title ?? category?.name}
+          </h1>
         </div>
       </section>
+
+      {intro}
 
       {/* CONTENT */}
       <div className="max-w-7xl mx-auto px-6 py-14">
@@ -275,6 +291,8 @@ export default function CategoryClient({
           </div>
         )}
       </div>
+
+      {afterContent}
     </main>
   );
 }
