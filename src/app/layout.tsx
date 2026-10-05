@@ -1,6 +1,7 @@
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import WhatsAppButton from "@/components/WhatsAppButton";
 import { QuoteProvider } from "@/context/QuoteContext";
 import { Toaster } from "react-hot-toast";
 import { GoogleAnalytics } from "@next/third-parties/google";
@@ -141,7 +142,13 @@ export default function RootLayout({
           <Footer />
         </QuoteProvider>
 
-        <Toaster position="bottom-right" />
+        <WhatsAppButton />
+
+        {/* Notificările stau deasupra butonului WhatsApp, ca să nu-l acopere. */}
+        <Toaster
+          position="bottom-right"
+          containerStyle={{ bottom: "calc(6rem + env(safe-area-inset-bottom, 0px))" }}
+        />
 
         <GoogleAnalytics gaId="G-V84XLNG7YS" />
 
