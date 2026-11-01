@@ -119,7 +119,10 @@ function formatDate(date: string) {
 }
 
 export default async function Home() {
-  const latestPosts = getAllPosts().slice(0, 3);
+  // Doar articolele cu imagine de copertă, ca secțiunea să arate la fel ca până acum.
+  const latestPosts = getAllPosts()
+    .filter((post) => post.coverImage)
+    .slice(0, 3);
 
   return (
     <main className="bg-white">
@@ -956,7 +959,7 @@ export default async function Home() {
                 >
                   <div className="relative h-48 bg-gray-200 overflow-hidden">
                     <Image
-                      src={post.coverImage}
+                      src={post.coverImage as string}
                       alt={post.coverAlt ?? post.title}
                       fill
                       className="object-cover group-hover:scale-105 transition duration-500"

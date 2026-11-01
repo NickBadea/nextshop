@@ -10,7 +10,8 @@ export type BlogPostMeta = {
   excerpt: string;
   date: string;
   keyword: string;
-  coverImage: string;
+  // Opțional: fără imagine, șablonul folosește un fundal simplu (nu se inventează o imagine).
+  coverImage?: string;
   // Opționale: titlu SEO dedicat (înlocuiește formatul implicit) și alt descriptiv pentru imaginea de copertă.
   metaTitle?: string;
   coverAlt?: string;

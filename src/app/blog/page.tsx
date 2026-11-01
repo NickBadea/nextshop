@@ -96,13 +96,20 @@ export default function BlogIndexPage() {
                 className="group bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition duration-300"
               >
                 <div className="relative h-48 bg-gray-200 overflow-hidden">
-                  <Image
-                    src={post.coverImage}
-                    alt={post.coverAlt ?? post.title}
-                    fill
-                    className="object-cover group-hover:scale-105 transition duration-500"
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                  />
+                  {post.coverImage ? (
+                    <Image
+                      src={post.coverImage}
+                      alt={post.coverAlt ?? post.title}
+                      fill
+                      className="object-cover group-hover:scale-105 transition duration-500"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
+                  ) : (
+                    <div
+                      aria-hidden="true"
+                      className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-blue-900"
+                    />
+                  )}
                 </div>
 
                 <div className="p-6">
