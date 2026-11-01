@@ -148,7 +148,7 @@ export default function QuotePage() {
 
       <div
         className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: "url('/quote-bg.jpg')" }}
+        style={{ backgroundImage: "url('/birou-calculator-fundal-cerere-oferta.webp')" }}
       />
 
       <div className="absolute inset-0 bg-black/70" />

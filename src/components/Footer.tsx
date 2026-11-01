@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function Footer() {
   return (
     <footer className="bg-black text-white pt-20 pb-24 md:pb-10">
@@ -7,10 +9,12 @@ export default function Footer() {
         {/* LOGO */}
 
         <div>
-          <img
-            src="/logo-footer.png"
-            alt="NextShop Retail"
-            className="w-70 mb-6"
+          <Image
+            src="/logo-nextshop-retail-alb.webp"
+            alt="Logo NextShop Retail"
+            width={280}
+            height={64}
+            className="w-70 h-auto mb-6"
           />
 
           <p className="text-gray-400 text-sm leading-relaxed max-w-xs mb-6">
@@ -25,10 +29,12 @@ export default function Footer() {
               Partener oficial
             </p>
 
-            <img
-              src="/partener.png"
-              alt="Partener oficial"
-              className="h-8 object-contain opacity-90"
+            <Image
+              src="/partener-oficial-alb.webp"
+              alt="Logo Modern Expo, partener oficial NextShop Retail"
+              width={262}
+              height={32}
+              className="h-8 w-auto object-contain opacity-90"
             />
           </div>
 

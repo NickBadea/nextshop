@@ -26,9 +26,11 @@ export default function BlogIndexPage() {
     <main className="bg-white min-h-screen">
       <section className="relative h-[260px] md:h-[340px] flex items-center">
         <Image
-          src="/hero-produse.jpg"
-          alt="Blog NextShop – ghiduri pentru amenajare magazin"
+          src="/mobilier-comercial-rafturi-vitrine-tejghea.webp"
+          alt=""
           fill
+          priority
+          sizes="100vw"
           className="object-cover"
         />
 
@@ -54,8 +56,8 @@ export default function BlogIndexPage() {
           >
             <div className="relative h-56 md:h-auto md:w-2/5 shrink-0">
               <Image
-                src="/why.jpg"
-                alt="Ghidul complet de amenajare a unui magazin"
+                src="/magazin-vinuri-rafturi-sticle-masa-expunere.webp"
+                alt="Magazin de vinuri cu rafturi pentru sticle și masă centrală de expunere"
                 fill
                 className="object-cover group-hover:scale-105 transition duration-500"
                 sizes="(max-width: 768px) 100vw, 40vw"

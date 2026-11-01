@@ -32,8 +32,8 @@ export default function Navbar() {
           <div className="flex items-center gap-6">
             <Link href="/" className="flex items-center" aria-label="NextShop homepage">
               <Image
-                src="/logo.png"
-                alt="NextShop logo"
+                src="/logo-nextshop-retail.webp"
+                alt="Logo NextShop Retail"
                 width={200}
                 height={90}
                 priority
@@ -189,8 +189,8 @@ export default function Navbar() {
         <div className="flex items-center justify-between px-6 h-20 border-b">
           <Link href="/" onClick={() => setOpen(false)} aria-label="NextShop homepage">
             <Image
-              src="/logo.png"
-              alt="NextShop logo"
+              src="/logo-nextshop-retail.webp"
+              alt="Logo NextShop Retail"
               width={150}
               height={70}
               className="object-contain"

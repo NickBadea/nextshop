@@ -134,11 +134,12 @@ export default async function Home() {
       <Reveal>
         <section className="relative min-h-[70vh] md:min-h-[90vh] flex items-center justify-center text-center">
           <Image
-            src="/hero2.jpg"
-            alt="Rafturi metalice, vitrine frigorifice și mobilier comercial pentru magazine"
+            src="/magazin-modern-coffee-corner-gondola.webp"
+            alt="Randare 3D a unui magazin modern cu coffee corner, gondolă cu produse și vitrine frigorifice"
             fill
             className="object-cover"
             priority
+            fetchPriority="high"
             sizes="100vw"
             quality={75}
           />
@@ -210,8 +211,8 @@ export default async function Home() {
             <div className="relative h-[320px] md:h-[420px] group">
               <div className="absolute w-[75%] h-[75%] top-0 left-0 rounded-xl overflow-hidden shadow-xl transition duration-500 group-hover:-rotate-3">
                 <Image
-                  src="/about.jpg"
-                  alt="Amenajare magazin cu rafturi metalice și mobilier comercial"
+                  src="/magazin-modern-coffee-corner-gondola.webp"
+                  alt="Interior de magazin cu gondolă centrală, coffee corner și vitrine frigorifice"
                   fill
                   className="object-cover"
                   sizes="(max-width: 768px) 75vw, 40vw"
@@ -221,8 +222,8 @@ export default async function Home() {
 
               <div className="absolute w-[75%] h-[75%] bottom-0 right-0 rounded-xl overflow-hidden shadow-xl transition duration-500 group-hover:rotate-3">
                 <Image
-                  src="/about2.jpg"
-                  alt="Vitrine frigorifice și soluții pentru magazine"
+                  src="/vitrine-frigorifice-verticale-magazin.webp"
+                  alt="Vitrine frigorifice verticale cu uși de sticlă, încărcate cu produse"
                   fill
                   className="object-cover"
                   sizes="(max-width: 768px) 75vw, 40vw"
@@ -258,8 +259,8 @@ export default async function Home() {
               >
                 <div className="relative h-48 bg-gray-200 overflow-hidden">
                   <Image
-                    src="/about.jpg"
-                    alt="Rafturi metalice pentru magazine"
+                    src="/magazin-modern-coffee-corner-gondola.webp"
+                    alt="Gondolă cu produse pe rafturi, într-un magazin modern cu coffee corner"
                     fill
                     className="object-cover group-hover:scale-105 transition duration-500"
                     sizes="(max-width: 768px) 100vw, 25vw"
@@ -290,8 +291,8 @@ export default async function Home() {
               >
                 <div className="relative h-48 bg-gray-200 overflow-hidden">
                   <Image
-                    src="/about2.jpg"
-                    alt="Vitrine frigorifice pentru magazine"
+                    src="/vitrine-frigorifice-verticale-magazin.webp"
+                    alt="Vitrine frigorifice verticale cu uși de sticlă într-un magazin"
                     fill
                     className="object-cover group-hover:scale-105 transition duration-500"
                     sizes="(max-width: 768px) 100vw, 25vw"
@@ -322,8 +323,8 @@ export default async function Home() {
               >
                 <div className="relative h-48 bg-gray-200 overflow-hidden">
                   <Image
-                    src="/why.jpg"
-                    alt="Tejghele comerciale pentru magazine"
+                    src="/magazin-vinuri-rafturi-sticle-masa-expunere.webp"
+                    alt="Magazin de vinuri cu rafturi pentru sticle și masă centrală de expunere"
                     fill
                     className="object-cover group-hover:scale-105 transition duration-500"
                     sizes="(max-width: 768px) 100vw, 25vw"
@@ -354,8 +355,8 @@ export default async function Home() {
               >
                 <div className="relative h-48 bg-gray-200 overflow-hidden">
                   <Image
-                    src="/hero2.jpg"
-                    alt="Gondole pentru magazine"
+                    src="/magazin-modern-coffee-corner-gondola.webp"
+                    alt="Gondolă centrală cu produse expuse pe ambele părți, într-un magazin modern"
                     fill
                     className="object-cover group-hover:scale-105 transition duration-500"
                     sizes="(max-width: 768px) 100vw, 25vw"
@@ -390,8 +391,8 @@ export default async function Home() {
           <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 md:gap-24 items-center">
             <div className="relative h-[340px] md:h-[460px] rounded-xl overflow-hidden shadow-xl">
               <Image
-                src="/why.jpg"
-                alt="Rafturi și mobilier comercial pentru magazine din Craiova"
+                src="/magazin-vinuri-rafturi-sticle-masa-expunere.webp"
+                alt="Magazin de vinuri cu rafturi pentru sticle, firmă luminoasă WINE și masă de expunere"
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, 50vw"
@@ -456,8 +457,8 @@ export default async function Home() {
       <Reveal>
         <section className="relative py-16 md:py-28">
           <Image
-            src="/why.jpg"
-            alt="Amenajare magazin cu rafturi, vitrine și mobilier comercial"
+            src="/magazin-vinuri-rafturi-sticle-masa-expunere.webp"
+            alt=""
             fill
             className="object-cover"
             sizes="100vw"

@@ -16,10 +16,11 @@ export default function CineSuntem() {
       <section className="relative h-[55vh] md:h-[65vh] flex items-center justify-center overflow-hidden">
 
         <Image
-          src="/about-hero.jpg"
-          alt="Mobilier profesional pentru magazine retail"
+          src="/raft-panificatie-paine-magazin.webp"
+          alt="Rafturi cu pâine și produse de panificație într-o brutărie modernă"
           fill
           priority
+          sizes="100vw"
           className="object-cover"
         />
 

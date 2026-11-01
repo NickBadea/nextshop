@@ -97,9 +97,11 @@ export default function ProduseClient() {
     <main className="bg-white min-h-screen">
       <section className="relative h-[260px] md:h-[340px] flex items-center">
         <Image
-          src="/hero-produse.jpg"
-          alt="Rafturi metalice, vitrine frigorifice și mobilier comercial"
+          src="/mobilier-comercial-rafturi-vitrine-tejghea.webp"
+          alt="Gama de mobilier comercial: rafturi, vitrine frigorifice, tejghea de casă și raft pentru vinuri"
           fill
+          priority
+          sizes="100vw"
           className="object-cover"
         />
 

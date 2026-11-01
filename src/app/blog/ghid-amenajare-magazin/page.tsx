@@ -87,7 +87,7 @@ export default function GhidAmenajareMagazinPage() {
       name: "NextShop Retail",
       logo: {
         "@type": "ImageObject",
-        url: "https://nextshopretail.ro/logo.png",
+        url: "https://nextshopretail.ro/logo-nextshop-retail.webp",
       },
     },
     mainEntityOfPage: {
@@ -146,10 +146,11 @@ export default function GhidAmenajareMagazinPage() {
       <section className="relative h-[320px] md:h-[420px] flex items-center">
         <Image
           src={guide.coverImage}
-          alt={guide.title}
+          alt="Magazin de vinuri cu rafturi pentru sticle și masă centrală de expunere"
           fill
           className="object-cover"
           priority
+          sizes="100vw"
         />
 
         <div className="absolute inset-0 bg-black/65" />

@@ -91,7 +91,7 @@ export default async function BlogPostPage({
       name: "NextShop Retail",
       logo: {
         "@type": "ImageObject",
-        url: "https://nextshopretail.ro/logo.png",
+        url: "https://nextshopretail.ro/logo-nextshop-retail.webp",
       },
     },
     mainEntityOfPage: {
@@ -128,6 +128,7 @@ export default async function BlogPostPage({
               fill
               className="object-cover"
               priority
+              sizes="100vw"
             />
 
             <div className="absolute inset-0 bg-black/60"></div>

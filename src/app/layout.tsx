@@ -58,7 +58,7 @@ export const metadata = {
     type: "website",
     images: [
       {
-        url: "/og-image.jpg",
+        url: "/nextshop-retail-og.jpg",
         width: 1200,
         height: 630,
         alt: "NextShop Retail - rafturi metalice, vitrine frigorifice și mobilier comercial",
@@ -71,7 +71,7 @@ export const metadata = {
     title: "Rafturi metalice, vitrine frigorifice și mobilier comercial",
     description:
       "NextShop Retail oferă soluții complete pentru magazine: rafturi, vitrine frigorifice, gondole, tejghele și mobilier comercial.",
-    images: ["/og-image.jpg"],
+    images: ["/nextshop-retail-og.jpg"],
   },
 
   robots: {
@@ -98,7 +98,7 @@ const localBusinessSchema = {
   name: "NextShop Retail",
   alternateName: "NextShop",
   url: "https://nextshopretail.ro",
-  image: "https://nextshopretail.ro/og-image.jpg",
+  image: "https://nextshopretail.ro/nextshop-retail-og.jpg",
   description:
     "Rafturi metalice, vitrine frigorifice, gondole, tejghele, case de marcat și mobilier comercial pentru magazine.",
   areaServed: ["Craiova", "Dolj", "România"],
