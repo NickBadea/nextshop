@@ -2,8 +2,18 @@ import type { MetadataRoute } from "next";
 import { supabase } from "@/lib/supabase";
 import { getAllPosts } from "@/lib/blog";
 
+// Data ultimei actualizări de conținut pentru categoriile cu text dedicat (restul folosesc data curentă).
+const categoryContentDates: Record<string, string> = {
+  rafturi: "2026-10-05",
+  vitrine: "2026-11-01",
+  tejghele: "2026-11-01",
+  "panificație": "2026-11-01",
+  "fructe-&-legume": "2026-11-01",
+};
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://nextshopretail.ro";
+  const posts = getAllPosts();
 
   const staticPages: MetadataRoute.Sitemap = [
     {
@@ -44,7 +54,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
     {
       url: `${baseUrl}/blog`,
-      lastModified: new Date(),
+      lastModified: posts[0] ? new Date(posts[0].date) : new Date(),
       changeFrequency: "weekly",
       priority: 0.7,
     },
@@ -56,7 +66,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  const blogPages: MetadataRoute.Sitemap = getAllPosts().map((post) => ({
+  const blogPages: MetadataRoute.Sitemap = posts.map((post) => ({
     url: `${baseUrl}/blog/${post.slug}`,
     lastModified: new Date(post.date),
     changeFrequency: "monthly",
@@ -79,7 +89,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const categoryPages: MetadataRoute.Sitemap =
     categories?.map((category: any) => ({
       url: `${baseUrl}/produse/${encodeURIComponent(category.slug)}`,
-      lastModified: new Date(),
+      lastModified: categoryContentDates[category.slug]
+        ? new Date(categoryContentDates[category.slug])
+        : new Date(),
       changeFrequency: "weekly",
       priority: 0.8,
     })) || [];
