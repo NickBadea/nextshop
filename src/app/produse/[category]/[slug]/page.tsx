@@ -3,6 +3,8 @@ export const dynamic = "force-dynamic";
 import { supabase } from "@/lib/supabase";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import RemoteImage from "@/components/RemoteImage";
+import { productImageAlt } from "@/lib/image-alt";
 import ProductGallery from "@/components/ProductGallery";
 import AddToQuoteButton from "@/components/AddToQuoteButton";
 import { getCategoryDisplayName } from "@/lib/category-content";
@@ -185,7 +187,10 @@ export default async function ProductPage({
 
             <div className="grid md:grid-cols-2 gap-16 mt-10">
 
-              <ProductGallery images={images} />
+              <ProductGallery
+                images={images}
+                alt={productImageAlt(product.name, product.category?.slug, categoryName)}
+              />
 
               <div>
 
@@ -289,10 +294,13 @@ export default async function ProductPage({
                     >
 
                       {relImages[0] && (
-                        <div className="overflow-hidden">
-                          <img
+                        <div className="relative h-64 overflow-hidden">
+                          <RemoteImage
                             src={relImages[0]}
-                            className="w-full h-64 object-cover transition duration-500 group-hover:scale-105"
+                            alt={productImageAlt(item.name, product.category?.slug, categoryName)}
+                            fill
+                            sizes="(max-width: 768px) 100vw, 33vw"
+                            className="object-cover transition duration-500 group-hover:scale-105"
                           />
                         </div>
                       )}

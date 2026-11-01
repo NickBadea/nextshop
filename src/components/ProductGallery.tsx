@@ -1,8 +1,15 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import RemoteImage from "@/components/RemoteImage";
 
-export default function ProductGallery({ images }: { images: string[] }) {
+export default function ProductGallery({
+  images,
+  alt = "",
+}: {
+  images: string[];
+  alt?: string;
+}) {
 
   const [active, setActive] = useState(0);
   const [open, setOpen] = useState(false);
@@ -73,10 +80,17 @@ export default function ProductGallery({ images }: { images: string[] }) {
         onClick={() => setOpen(true)}
       >
 
-        <img
-  src={images[active]}
-  className="max-h-[520px] w-auto mx-auto rounded-xl object-contain"
-/>
+        {/* width/height rezervă spațiul (poză verticală 3:4) până se încarcă; apoi se aplică proporțiile reale */}
+        <RemoteImage
+          src={images[active]}
+          alt={alt}
+          width={900}
+          height={1200}
+          priority
+          fetchPriority="high"
+          sizes="(max-width: 768px) 100vw, 50vw"
+          className="max-h-[520px] w-auto h-auto mx-auto rounded-xl object-contain"
+        />
 
       </div>
 
@@ -88,9 +102,13 @@ export default function ProductGallery({ images }: { images: string[] }) {
 
     {images.map((img, i) => (
 
-      <img
+      <RemoteImage
         key={i}
         src={img}
+        alt={`${alt} – imaginea ${i + 1}`}
+        width={80}
+        height={80}
+        sizes="80px"
         onClick={() => setActive(i)}
         className={`w-20 h-20 min-w-[80px] object-cover rounded-lg cursor-pointer border ${
           active === i
@@ -138,9 +156,13 @@ export default function ProductGallery({ images }: { images: string[] }) {
 
           {/* IMAGE */}
 
-          <img
+          <RemoteImage
             src={images[active]}
-            className="max-h-[85vh] max-w-[90vw] object-contain"
+            alt={alt}
+            width={1920}
+            height={1080}
+            sizes="90vw"
+            className="max-h-[85vh] max-w-[90vw] w-auto h-auto object-contain"
           />
 
           {/* NEXT */}

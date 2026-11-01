@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import Link from "next/link";
 import Image from "next/image";
+import RemoteImage from "@/components/RemoteImage";
 import Reveal from "@/components/Reveal";
 import FaqAccordion from "@/components/FaqAccordion";
 import {
@@ -143,10 +144,12 @@ export default function ProduseClient() {
                 className="group relative aspect-[4/3] overflow-hidden rounded-2xl shadow-sm hover:shadow-xl transition"
               >
                 {cat.image && (
-                  <img
+                  <RemoteImage
                     src={cat.image}
-                    alt={cat.name}
-                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                    alt=""
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+                    className="object-cover group-hover:scale-105 transition duration-500"
                   />
                 )}
 

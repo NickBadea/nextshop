@@ -4,6 +4,8 @@ import { useEffect, useState, type ReactNode } from "react";
 import { useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import Link from "next/link";
+import RemoteImage from "@/components/RemoteImage";
+import { productImageAlt } from "@/lib/image-alt";
 import AddToQuoteButton from "@/components/AddToQuoteButton";
 import { LayoutGrid, List } from "lucide-react";
 
@@ -73,10 +75,14 @@ export default function CategoryClient({
       {/* HERO CATEGORY */}
       <section className="relative h-[220px] flex items-center">
         {category?.image && (
-          <img
+          <RemoteImage
             src={category.image}
-            alt={category.name}
-            className="absolute inset-0 w-full h-full object-cover"
+            alt=""
+            fill
+            priority
+            fetchPriority="high"
+            sizes="100vw"
+            className="object-cover"
           />
         )}
 
@@ -177,12 +183,14 @@ export default function CategoryClient({
                       categorySlug
                     )}/${encodeURIComponent(product.slug)}`}
                   >
-                    <div className="aspect-[4/3] bg-white overflow-hidden flex items-center justify-center">
+                    <div className="relative aspect-[4/3] bg-white overflow-hidden flex items-center justify-center">
                       {images[0] && (
-                        <img
+                        <RemoteImage
                           src={images[0]}
-                          alt={product.name}
-                          className="w-full h-full object-contain p-4 transition duration-500 group-hover:scale-105"
+                          alt={productImageAlt(product.name, categorySlug, category?.name)}
+                          fill
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+                          className="object-contain p-4 transition duration-500 group-hover:scale-105"
                         />
                       )}
                     </div>
@@ -236,12 +244,14 @@ export default function CategoryClient({
                   </Link>
 
                   <div className="flex items-center gap-4">
-                    <div className="w-28 h-24 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
+                    <div className="relative w-28 h-24 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
                       {images[0] && (
-                        <img
+                        <RemoteImage
                           src={images[0]}
-                          alt={product.name}
-                          className="w-full h-full object-cover"
+                          alt={productImageAlt(product.name, categorySlug, category?.name)}
+                          fill
+                          sizes="112px"
+                          className="object-cover"
                         />
                       )}
                     </div>

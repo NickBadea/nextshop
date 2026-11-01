@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import RemoteImage from "@/components/RemoteImage";
 import { useQuote } from "@/context/QuoteContext";
 import { supabase } from "@/lib/supabase";
 
@@ -190,8 +191,12 @@ export default function QuotePage() {
                 >
 
                   {p.image && (
-                    <img
+                    <RemoteImage
                       src={p.image}
+                      alt={p.name}
+                      width={80}
+                      height={80}
+                      sizes="80px"
                       className="w-16 h-16 md:w-20 md:h-20 object-contain rounded-lg bg-gray-100"
                     />
                   )}
