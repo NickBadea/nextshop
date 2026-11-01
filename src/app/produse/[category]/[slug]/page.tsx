@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import ProductGallery from "@/components/ProductGallery";
 import AddToQuoteButton from "@/components/AddToQuoteButton";
+import { getCategoryDisplayName } from "@/lib/category-content";
 
 export async function generateMetadata({
   params,
@@ -86,6 +87,38 @@ export default async function ProductPage({
     image: images[0],
   };
 
+  // Breadcrumb: numele categoriei ca în H1-ul paginii ei (nu cel din baza de date).
+  const categoryName = product.category
+    ? getCategoryDisplayName(product.category.slug, product.category.name)
+    : null;
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://nextshopretail.ro" },
+      { "@type": "ListItem", position: 2, name: "Produse", item: "https://nextshopretail.ro/produse" },
+      ...(product.category
+        ? [
+            {
+              "@type": "ListItem",
+              position: 3,
+              name: categoryName,
+              item: `https://nextshopretail.ro/produse/${encodeURIComponent(product.category.slug)}`,
+            },
+            {
+              "@type": "ListItem",
+              position: 4,
+              name: product.name,
+              item: `https://nextshopretail.ro/produse/${encodeURIComponent(
+                product.category.slug
+              )}/${encodeURIComponent(product.slug)}`,
+            },
+          ]
+        : []),
+    ],
+  };
+
   const { data: related } = await supabase
     .from("products")
     .select("id,name,slug,images")
@@ -98,6 +131,11 @@ export default async function ProductPage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
       <main className="bg-white">
@@ -130,7 +168,7 @@ export default async function ProductPage({
                     href={`/produse/${product.category.slug}`}
                     className="hover:text-black"
                   >
-                    {product.category.name}
+                    {categoryName}
                   </Link>
 
                   <span>/</span>

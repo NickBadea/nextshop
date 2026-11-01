@@ -3,6 +3,7 @@ import { vitrineContent } from "./vitrine";
 import { tejgheleContent } from "./tejghele";
 import { panificatieContent } from "./panificatie";
 import { fructeLegumeContent } from "./fructe-legume";
+import { RAFTURI_H1, RAFTURI_SLUG } from "../rafturi-content";
 
 export type CategoryPage = {
   content: CategoryContent;
@@ -33,6 +34,14 @@ export const categoryPages: Record<string, CategoryPage> = {
 
 export function getCategoryPage(slug: string): CategoryPage | null {
   return categoryPages[slug] ?? null;
+}
+
+// Numele categoriei afișat în breadcrumb: același cu H1-ul paginii, nu cel din baza de date
+// (ex. "Raft Perete" în DB, "Rafturi magazin" ca H1).
+export function getCategoryDisplayName(slug: string, dbName: string): string {
+  if (slug === RAFTURI_SLUG) return RAFTURI_H1;
+
+  return categoryPages[slug]?.content.h1 ?? dbName;
 }
 
 // Text simplu (fără sintaxa de linkuri/îngroșat), pentru JSON-LD.

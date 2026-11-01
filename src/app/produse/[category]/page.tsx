@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import CategoryClient from "./CategoryClient";
 import { RafturiIntro, RafturiSections } from "@/components/produse/RafturiContent";
 import { CategoryIntro, CategorySections } from "@/components/produse/CategoryContentBlocks";
-import { getCategoryPage, toPlainText } from "@/lib/category-content";
+import { getCategoryPage, getCategoryDisplayName, toPlainText } from "@/lib/category-content";
 import { buildWhatsAppUrl } from "@/lib/whatsapp";
 import {
   RAFTURI_H1,
@@ -142,7 +142,7 @@ export default async function CategoryPage({ params }: PageProps) {
   const generic = getCategoryPage(categorySlug);
   // H1-ul paginii (când diferă de numele din baza de date) e folosit și în breadcrumb.
   const h1Override = isRafturi ? RAFTURI_H1 : generic?.content.h1;
-  const displayName = h1Override ?? categoryData.name;
+  const displayName = getCategoryDisplayName(categorySlug, categoryData.name);
 
   const breadcrumbSchema = {
     "@context": "https://schema.org",
