@@ -1,4 +1,6 @@
 import ProduseClient from "./ProduseClient";
+import JsonLd from "@/components/JsonLd";
+import { breadcrumbSchema } from "@/lib/schema";
 
 export const dynamic = "force-dynamic";
 
@@ -22,5 +24,16 @@ export const metadata = {
 };
 
 export default function ProdusePage() {
-  return <ProduseClient />;
+  return (
+    <>
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: "Home", path: "" },
+          { name: "Produse", path: "/produse" },
+        ])}
+      />
+
+      <ProduseClient />
+    </>
+  );
 }

@@ -5,6 +5,8 @@ import Link from "next/link";
 import Reveal from "@/components/Reveal";
 import FaqAccordion from "@/components/FaqAccordion";
 import { getAllPosts } from "@/lib/blog";
+import JsonLd from "@/components/JsonLd";
+import { faqPageSchema } from "@/lib/schema";
 import {
   Eye,
   MoveHorizontal,
@@ -126,6 +128,8 @@ export default async function Home() {
 
   return (
     <main className="bg-white">
+      <JsonLd data={faqPageSchema(faqItems)} />
+
       {/* HERO */}
       <Reveal>
         <section className="relative min-h-[70vh] md:min-h-[90vh] flex items-center justify-center text-center">

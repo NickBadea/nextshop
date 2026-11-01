@@ -5,6 +5,8 @@ import { getGuideBySlug } from "@/lib/guide";
 import { guideMdxComponents } from "@/components/guide/guideMdxComponents";
 import GuideToc, { type TocSection } from "@/components/guide/GuideToc";
 import { guideFaqItems } from "@/components/guide/guideFaqData";
+import JsonLd from "@/components/JsonLd";
+import { breadcrumbSchema } from "@/lib/schema";
 
 const SLUG = "ghid-amenajare-magazin";
 const PAGE_URL = "https://nextshopretail.ro/blog/ghid-amenajare-magazin";
@@ -124,6 +126,13 @@ export default function GhidAmenajareMagazinPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: "Home", path: "" },
+          { name: "Blog", path: "/blog" },
+          { name: guide.title, path: "/blog/ghid-amenajare-magazin" },
+        ])}
       />
       <script
         type="application/ld+json"
