@@ -4,6 +4,9 @@ import { supabase } from "@/lib/supabase";
 import { notFound } from "next/navigation";
 import CategoryClient from "./CategoryClient";
 import { RafturiIntro, RafturiSections } from "@/components/produse/RafturiContent";
+import { CategoryIntro, CategorySections } from "@/components/produse/CategoryContentBlocks";
+import { getCategoryPage, toPlainText } from "@/lib/category-content";
+import { buildWhatsAppUrl } from "@/lib/whatsapp";
 import {
   RAFTURI_H1,
   RAFTURI_SEO,
@@ -96,12 +99,14 @@ export async function generateMetadata({ params }: PageProps) {
     };
   }
 
-  const seo = getSeoForCategory(categorySlug, categoryData.name);
+  const generic = getCategoryPage(categorySlug);
+  const seo = generic?.content.seo ?? getSeoForCategory(categorySlug, categoryData.name);
   const isRafturi = categorySlug === RAFTURI_SLUG;
+  // Titlurile din conținutul aprobat includ deja sufixul brandului, deci ocolesc template-ul din layout.
+  const hasOwnTitle = isRafturi || !!generic;
 
   return {
-    // Titlul paginii de rafturi include deja sufixul brandului, deci ocolește template-ul din layout.
-    title: isRafturi ? { absolute: seo.title } : seo.title,
+    title: hasOwnTitle ? { absolute: seo.title } : seo.title,
     description: seo.description,
     alternates: {
       canonical: `https://nextshopretail.ro/produse/${encodeURIComponent(
@@ -109,7 +114,7 @@ export async function generateMetadata({ params }: PageProps) {
       )}`,
     },
     openGraph: {
-      title: isRafturi ? seo.title : `${seo.title} | NextShop`,
+      title: hasOwnTitle ? seo.title : `${seo.title} | NextShop`,
       description: seo.description,
       url: `https://nextshopretail.ro/produse/${encodeURIComponent(
         categorySlug
@@ -133,6 +138,12 @@ export default async function CategoryPage({ params }: PageProps) {
 
   if (!categoryData) return notFound();
 
+  const isRafturi = categorySlug === RAFTURI_SLUG;
+  const generic = getCategoryPage(categorySlug);
+  // H1-ul paginii (când diferă de numele din baza de date) e folosit și în breadcrumb.
+  const h1Override = isRafturi ? RAFTURI_H1 : generic?.content.h1;
+  const displayName = h1Override ?? categoryData.name;
+
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -152,7 +163,7 @@ export default async function CategoryPage({ params }: PageProps) {
       {
         "@type": "ListItem",
         position: 3,
-        name: categoryData.name,
+        name: displayName,
         item: `https://nextshopretail.ro/produse/${encodeURIComponent(
           categorySlug
         )}`,
@@ -164,24 +175,30 @@ export default async function CategoryPage({ params }: PageProps) {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
     name: `${categoryData.name} | NextShop`,
-    description: getSeoForCategory(categorySlug, categoryData.name).description,
+    description: (generic?.content.seo ?? getSeoForCategory(categorySlug, categoryData.name))
+      .description,
     url: `https://nextshopretail.ro/produse/${encodeURIComponent(
       categorySlug
     )}`,
   };
 
-  const isRafturi = categorySlug === RAFTURI_SLUG;
+  const genericFaq = generic?.content.blocks.find((block) => block.type === "faq");
+  const faqItems = isRafturi
+    ? rafturiFaq
+    : genericFaq && genericFaq.type === "faq"
+      ? genericFaq.items
+      : null;
 
-  const faqSchema = isRafturi
+  const faqSchema = faqItems
     ? {
         "@context": "https://schema.org",
         "@type": "FAQPage",
-        mainEntity: rafturiFaq.map((item) => ({
+        mainEntity: faqItems.map((item) => ({
           "@type": "Question",
-          name: item.question,
+          name: toPlainText(item.question),
           acceptedAnswer: {
             "@type": "Answer",
-            text: item.answer,
+            text: toPlainText(item.answer),
           },
         })),
       }
@@ -215,9 +232,24 @@ export default async function CategoryPage({ params }: PageProps) {
       <CategoryClient
         categorySlug={categorySlug}
         initialCategory={{ name: categoryData.name, image: categoryData.image }}
-        title={isRafturi ? RAFTURI_H1 : undefined}
-        intro={isRafturi ? <RafturiIntro /> : undefined}
-        afterContent={isRafturi ? <RafturiSections /> : undefined}
+        title={h1Override}
+        intro={
+          isRafturi ? (
+            <RafturiIntro />
+          ) : generic ? (
+            <CategoryIntro text={generic.content.intro} />
+          ) : undefined
+        }
+        afterContent={
+          isRafturi ? (
+            <RafturiSections />
+          ) : generic ? (
+            <CategorySections
+              content={generic.content}
+              whatsappUrl={buildWhatsAppUrl(generic.whatsappMessage)}
+            />
+          ) : undefined
+        }
       />
     </>
   );

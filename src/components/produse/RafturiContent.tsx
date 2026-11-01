@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Boxes, Building2, ChevronDown, Store } from "lucide-react";
+import { Boxes, Building2, Store } from "lucide-react";
+import FaqDetails from "@/components/produse/FaqDetails";
 import { RAFTURI_FAQ_TITLE, rafturiFaq } from "@/lib/rafturi-content";
 
 const inlineLink = "text-blue-600 font-semibold hover:underline";
@@ -216,43 +217,27 @@ export function RafturiSections() {
             {RAFTURI_FAQ_TITLE}
           </h2>
 
-          <div className="space-y-4">
-            {rafturiFaq.map((item, index) => {
+          <FaqDetails
+            items={rafturiFaq.map((item) => {
               const parts = item.link ? item.answer.split(item.link.text) : null;
 
-              return (
-                <details
-                  key={item.question}
-                  open={index === 0}
-                  className="group rounded-xl border border-gray-200 bg-white shadow-sm transition duration-300 open:shadow-md"
-                >
-                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 rounded-xl px-6 py-5 text-left font-semibold text-black focus-visible:outline-2 focus-visible:outline-blue-600 [&::-webkit-details-marker]:hidden">
-                    <span>{item.question}</span>
-
-                    <ChevronDown
-                      aria-hidden="true"
-                      size={20}
-                      className="shrink-0 text-blue-600 transition-transform duration-300 group-open:rotate-180"
-                    />
-                  </summary>
-
-                  <p className="px-6 pb-5 text-gray-600 leading-relaxed">
-                    {item.link && parts ? (
-                      <>
-                        {parts[0]}
-                        <Link href={item.link.href} className={inlineLink}>
-                          {item.link.text}
-                        </Link>
-                        {parts.slice(1).join(item.link.text)}
-                      </>
-                    ) : (
-                      item.answer
-                    )}
-                  </p>
-                </details>
-              );
+              return {
+                question: item.question,
+                answer:
+                  item.link && parts ? (
+                    <>
+                      {parts[0]}
+                      <Link href={item.link.href} className={inlineLink}>
+                        {item.link.text}
+                      </Link>
+                      {parts.slice(1).join(item.link.text)}
+                    </>
+                  ) : (
+                    item.answer
+                  ),
+              };
             })}
-          </div>
+          />
         </div>
       </section>
 

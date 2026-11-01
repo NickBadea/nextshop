@@ -99,7 +99,7 @@ export default function CategoryClient({
 
             <span>/</span>
 
-            <span className="font-medium">{category?.name}</span>
+            <span className="font-medium">{title ?? category?.name}</span>
           </nav>
 
           <h1 className="text-4xl md:text-5xl font-bold">
